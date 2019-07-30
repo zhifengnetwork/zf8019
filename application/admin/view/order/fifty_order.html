@@ -1,0 +1,101 @@
+{extend name="common:base" /}
+{block name="style"}
+<style type="text/css">
+.table>thead>tr>th {
+    text-align: center;
+}
+</style>
+{/block}
+
+{block name="content"}
+<div class="ibox">
+    <div class="ibox-content">
+            <div class="row">
+               <form  method="get" action="{:url()}">
+                             <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label class="control-label" for="status">支付状态</label>
+                                    <select name="order_status" class="form-control" style="width:180px;">
+                                              <option value="5" {$order_status==5?='selected' }>默认全部</option>
+                                              <option value="0" {$order_status==0?='selected' }>未支付</option>
+                                              <option value="1" {$order_status==1?='selected' }>已支付</option>
+                                        </select>
+                                </div>
+                            </div>
+                           
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label class="control-label" for="kw">用户信息</label>
+                                        <input type="text" placeholder="用户手机号/姓名/昵称" name="kw" value="{$kw}" class="form-control">
+                                    </div>
+                                </div>
+                        
+                            <div class="col-sm-1">
+                                    <div class="form-group">
+                                        <label class="control-label" for="status">　</label>
+                                        <div>
+                                            <button class="btn btn-primary">查询</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label class="control-label">日期</label>
+                                <div class="input-daterange input-group" data-provide="datepicker">
+                                    <input class="form-control input-sm" name="begin_time" type="text" value="{$begin_time}"/>
+                                    <span class="input-group-addon">到</span>
+                                    <input class="form-control input-sm" name="end_time" type="text" value="{$end_time}"/>
+                                </div>
+                            </div>
+                        </div>
+                        
+                </form>
+           </div>
+       </div>
+                <div class="ibox-content">
+                    <div class="table-responsive">
+                        <table class="table  table-bordered table-hover text-center">
+                            <thead>
+                                <tr>
+                                    <th class="col-lg-2">订单号</th>
+                                    <th >用户ID/昵称</th>
+                                    <th>手机号码</th>
+                                    <th>订单金额（元）</th>
+                                    <th>支付方式</th>
+                                    <th>订单状态</th>
+                                    <th>下单时间</th>
+                                </tr>
+                            </thead> 
+                            <tbody>
+                                {notempty name="list"}
+                                {volist name="list" id="vo"}
+                                <tr>
+                                    <td>{$vo.order_sn}</td>
+                                    <td>{$vo.user_id}/{$vo.realname}</td>
+                                    <td>{$vo.mobile}</td>
+                                    <td>{$vo.amount}</td>
+                                    <td>
+                                            {if condition="$vo.source eq 1"} 余额支付
+                                            {elseif condition="$vo.source eq 2"/}微信支付
+                                            {else /} 支付宝
+                                            {/if}
+                                    </td>
+                                    <td> 
+                                        {if condition="$vo.order_status eq 0"} 未支付
+                                        {elseif condition="$vo.order_status eq 1"/}已支付
+                                        {else /} 已关闭
+                                        {/if}</td>
+                                    <td>{$vo.create_time|date="y-m-d H:i:s",###}</td>
+                                </tr>
+                                {/volist}
+                                {/notempty}
+                            </tbody>
+                        </table>
+                        {$list->render()}
+                    </div>
+                </div>
+                
+
+
+{/block}

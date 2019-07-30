@@ -1,0 +1,15 @@
+{
+  "name": "新零售1.0接口文档",
+  "version": "1.0.0",
+  "description": "服务平台",
+  "title": "接口服务平台",
+  "url" : "http://new_retail_api.zhifengwangluo.com",
+  "header": {
+    "title": "首页",
+    "filename": "public\\doc\\header.md"
+  },
+  "template": {
+  	"withCompare": true,
+  	"withGenerator": true
+  }
+}

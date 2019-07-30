@@ -1,0 +1,73 @@
+{extend name="common:base" /}
+
+{block name="content"}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                
+                <div class="ibox-content">
+
+                    <div class="table-responsive">
+                        <form action="{:URL('Admin/delAll')}" method="post">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+
+                                <th>ID</th>
+                                <th>用户 </th>
+                                <th>凭证 </th>
+                                <th>用户确认状态 </th>
+                                <th>商家确认状态</th>
+                                <th>上传时间</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {volist name="list" id="vo"}
+                            <tr>
+                                <td>{$vo.fz_order_id}</td>
+                                <td>{$vo.mobile}</td>
+                                <td><img src="__IMAGES__/{$vo.proof}" style="width:50px;height:50px"></td>
+                                <td>{if condition="$vo.user_confirm"}已确认{else /}未确认{/if}</td>
+                                <td>{if condition="$vo.shop_confirm"}已确认{else /}未确认{/if}</td>
+                                <td>{$vo.add_time|date="Y-m-d",###}</td>
+                                <td>
+                                    {if condition="!$vo.shop_confirm"}<a class="btn btn-default delete" onclick="pass_proof(this,{$vo.fz_order_id})" href="javascript:;" _href="{:url('FiftyZone/pass_proof',['fz_order_id'=>$vo.fz_order_id],false)}" >通过审核 </i></a>{/if}
+                                </td>
+                            </tr>
+                            {/volist}
+                            </tbody>
+                        </table>
+                        </form>
+                    </div>
+                    <style>
+                        .pagination{}
+                        .pagination li{float:left;position:relative;margin-top:10px;padding:0 12px;}
+                        .pagination li{float:left;width:42px;height:28px;border:1px solid #DDD; text-align:center;line-height:30px;border-left:none;}
+                        .pagination li.active{color:#f00;}
+                        .pagination li a{float:left;width:42px;height:28px; text-align:center;line-height:30px;border-left:none;color:#3399d5;}
+                    </style>
+                    <ul class="pagination">
+                        {$list->render()}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{/block}
+{block name='script'}
+<script>
+    function pass_proof(obj,fz_order_id){
+        if(window.confirm('确认审核通过吗？')){
+            $.post($(obj).attr('_href'),{'fz_order_id':fz_order_id},function(data){
+                alert(data.msg);
+                if(data.code){
+                    $(obj).parents('tr').remove();
+                }
+            },'json');
+        }
+    }
+
+</script>
+{/block}

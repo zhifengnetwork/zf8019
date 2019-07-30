@@ -1,0 +1,72 @@
+{extend name="common:base" /}
+{block name="style"}
+<style type="text/css">
+.table>thead>tr>th {
+    text-align: center;
+}
+</style>
+{/block}
+
+{block name="content"}
+<div class="main rightlist">
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" >
+       
+        <div class="panel panel-default"> 
+            <div class='panel-body'>
+
+                <div class="form-group form-group-s">
+                    <label class="col-xs-12 col-sm-2 control-label">等级名称</label>
+                    <div class="col-sm-8 col-xs-12">
+                            <input type="text" name="levelname" class="form-control" value="{$info.levelname}" autocomplete="off"/>
+                       <!-- <span class="help-block"><strong class="text-danger">微信支付要求公众号为“认证服务号”，该公众号没有微信支付的权限</strong></span>  -->
+                    </div>
+                </div>
+                <div class="form-group form-group-s">
+                    <label class="col-xs-12 col-sm-2 control-label">团队服务费的百分比 </label>
+                    <div class="input-daterange input-group" style="left:15px;">
+                            <input class="form-control " name="rate" type="text" value="{$info.rate * 100}" autocomplete="off"/>
+                            <span class="input-group-addon">%</span>
+                    </div>
+                </div>
+                <div class="form-group form-group-s">
+                        <label class="col-xs-12 col-sm-2 control-label">代理费用 </label>
+                        <div class="input-daterange input-group" style="left:15px;">
+                                <input class="form-control " name="money" type="text" value="{$info.money}" autocomplete="off"/>
+                        </div>
+                 </div>
+                <div class="form-group form-group-s">
+                    <label class="col-xs-12 col-sm-2 control-label">分销条件</label>
+                    <div class="input-daterange input-group" style="left:15px;">
+                        <span class="input-group-addon">{$info.desc}</span>
+                    </div>
+                </div>
+
+                      
+            <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-sm-9 col-xs-12">
+                    <button class="btn btn-primary ajax-post col-lg-1" target-form="form-horizontal" type="submit">保存</button>
+                     </div>
+            </div>
+
+            </div>
+        </div>     
+    </form>
+</div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+   $(function () {
+                    $(":radio[name='pay[weixin]']").click(function () {
+                        if ($(this).val() == 1) {
+                            $("#certs").show();
+                        }
+                        else {
+                            $("#certs").hide();
+                        }
+                    })
+
+                })
+</script>
+{/block}

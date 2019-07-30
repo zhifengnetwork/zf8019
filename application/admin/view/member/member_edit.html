@@ -1,0 +1,141 @@
+
+
+{extend name="common:base" /}
+
+{block name="style"}
+<style type="text/css">
+    table thead tr{ background-color: #1ab394; }
+    table thead tr th{ text-align: center; }
+    .table>thead>tr>th {
+    text-align: center;
+   }
+   .center {
+    text-align: center;
+   }
+
+</style>
+{/block}
+
+{block name="content"}
+<div class="main">
+        <form action="" method='post' class='form-horizontal'>
+            <input type="hidden" id="uid" name="data[id]" value="{$memberOrder['id']}">
+            <div class='panel panel-default'>
+                <div class='panel-heading'>会员详细信息</div>
+                <div class='panel-body'>
+                    <div class="table-responsive">
+                        <table  class="table table-bordered">
+                            <thead class="navbar-inner">
+                                <tr > 
+                                    <th style="width:12%;">用户ID</th>
+                                    <th>真实姓名</th>
+                                    <th>性别</th>
+                                    <th>手机号码</th>
+                                    <th>佣金累计收益</th>
+                                    <th>余额</th>
+                                    <th>积分</th>
+                                </tr>
+                            </thead>
+                            <tr><td>
+                                <p>
+                                   {notempty name="$memberOrder['avatar']"}
+                                    <img src="{$memberOrder['avatar']}" style="width:70px">
+                                    {/notempty}
+                                    {$memberOrder['id']}</p></td>
+                                <td><div class="form-control-static" style="width: 100%; word-wrap:break-word;">   
+                                    <input type="text" name="data[realname]" class="form-control" value="{$memberOrder['realname']}"  /></div></td>
+                                <td><div class="center">
+                                        {if condition="$memberOrder['gender'] eq 1"}男{else /}女{/if}
+                                    </div></td>
+                                <td><div class="center">
+                                        <input type="text" name="data[mobile]" class="form-control" value="{$memberOrder['mobile']}"  />
+                                    </div></td>
+                            <td><div class="center">
+                                    <input type="text" name="data[distribut_money]" class="form-control" value="{$memberOrder['distribut_money']}"  />
+                                </div></td>
+                                <td><div class="center">
+                                        <input type="text" name="data[remainder_money]" class="form-control" value="{$memberOrder['remainder_money']}"  />
+                                    </div></td>
+                                <td><div class="center">
+                                        <input type="text" name="data[pay_points]" class="form-control" value="{$memberOrder['pay_points']}"  />
+                                    </div></td>
+                               
+                                <!-- <td><div class="">
+                                    <div class='input-group'>
+                                        <div class=' input-group-addon'  style='width:200px;text-align: left;'> <input type="text" name="data[invest_money]" class="form-control" value="0"  /></div>
+                                        <div class='input-group-btn'>
+                                            <a class='btn btn-primary' href="{:url('finance/integral_recharge', array('id'=>111))}">充值</a>
+                                        </div>
+                                    </div>
+                                 
+        
+                                </div></td> -->
+                            </tr>
+                            <thead class="navbar-inner">
+                                <tr>
+                                    <th>成交订单数</th>
+                                    <th>成交金额</th>
+                                    <th>账号状态</th>
+                                    <th>注册时间</th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td>
+                                    <div class='form-control-static center'>{$memberOrder['ordercount']}</div>
+                                </td>
+                                <td>
+                                    <div class='form-control-static center'>{$memberOrder['totalamount']} 元</div>
+                                </td>
+                                <td><div class='form-control-static center' >
+                                      
+                                            {if condition="$memberOrder['status'] neq 1"}
+                                             <label onclick="changeStatus()" class='label label-default'> 冻结   </label>
+                                            {else /}
+                                            <label onclick="changeStatus()" class='label label-success'> 正常   </label>
+                                            {/if}
+                                     
+                                    </div>
+                                </td>
+                                <td><div class='form-control-static center' >
+                                                {$memberOrder['createtime']|date="Y-m-d",###}
+                                    </div>
+                                </td>
+                             
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class='panel-body'>
+                            <div class="form-group">
+                                  <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                                  <div class="col-sm-9 col-xs-12">
+                                    <button class="btn btn-primary ajax-post col-lg-1" target-form="form-horizontal" type="submit">提交</button>
+                                    <input type="button" class="btn btn-default" name="submit" onclick="history.go(-1)" value="返回列表" {ifp 'member.member.edit'}style='margin-left:10px;'{/if} />
+                                  </div>
+                              </div>
+                           </div>
+                </div>
+    </form>  
+    </div>
+{/block}
+{block name="script"}
+
+<script>
+function changeStatus(){
+   
+    var uid=$("#uid").val();
+    $.ajax({
+        url:"{:url('member/set_free')}",
+        data:{uid,uid},
+        method:'get',
+        success:function(res){
+            if(res==1){
+                location.replace(location.href);
+            }else{
+                alert("操作失败");
+            }
+        }
+    })
+}
+</script>
+{/block}

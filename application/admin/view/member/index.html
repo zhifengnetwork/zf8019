@@ -1,0 +1,157 @@
+{extend name="common:base" /}
+{block name="style"}
+<style type="text/css">
+.table>thead>tr>th {
+    text-align: center;
+}
+.table>thead>tr>td {
+    text-align: center;
+}
+</style>
+{/block}
+
+{block name="content"}
+<div class="ibox">
+
+        <div class="ibox-content m-b-sm border-bottom">
+                <div class="row">
+                 <form  method="get" action="{:url()}">
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label class="control-label" for="product_name">会员信息</label>
+                            <input type="text" id="realname" name="realname" value="{$kw}" placeholder="可搜索会员昵称/姓名/手机号" class="form-control">
+                        </div>
+                    </div>
+            
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label class="control-label" for="status">会员等级</label>
+                            <select name='level' class='form-control' style="width:150px;">
+                                <option value=''>默认全部</option>
+                                <option value='0' {if $level==0}selected{/if}>普通会员</option>
+                                {foreach $levels as $key => $vo}
+                                <option value="{$vo['level']}" {if $level==$vo['level']}selected{/if}>{$vo['levelname']}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="form-group">
+                            <label class="control-label" for="status">　</label>
+                            <div>
+                                <button class="btn btn-primary">查询</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="form-group">
+                            <label class="control-label" for="status">　</label>
+                            <div>
+                                <!-- <a class="btn btn-primary" href="{:url('finance/balance_logs', $exportParam)}">导出Excel</a> -->
+                            </div>
+                        </div>
+                   </div>
+                    
+            
+                </div>
+            </form>
+            </div>
+
+
+        <div class="ibox-content">
+            <div class="table-responsive">
+                <table class="table  table-bordered table-hover text-center">
+                    <thead>
+                        <tr>
+                            <th>会员ID</th>
+                            <th>推荐人ID</th>
+                            <th>会员姓名</th>
+                            <th>手机号码</th>
+                            <th>佣金累计收益</th>
+                            <th>余额</th>
+                            <th>注册时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead> 
+                    <tbody>
+                        {notempty name="list"}
+                        {volist name="list" id="vo"}
+                        <tr>
+                            <td>{$vo.id}</td>
+                            <td>{$vo.first_leader}</td>
+                            <td>{$vo['realname']}</td>
+                            <td>{$vo['mobile']}</td>
+                            <td>{$vo['distribut_money']}</td>
+                            <td>{$vo['remainder_money']}</td>
+                            <td>{$vo['createtime']|date="Y-m-d",###}</td>
+                            <td  style="overflow:visible;">
+                                <div class="btn-group btn-group-sm" >
+                                        <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
+                                    <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999'>
+                                        <!-- <li><a href="{:url('member/add_payment',array('id' => $vo['id']));}" title="收款信息"><i class='fa fa-edit'></i> 收款信息</a></li> -->
+                                        <li><a href="{:url('member/member_edit',array('id' => $vo['id']));}" title="会员详情"><i class='fa fa-edit'></i> 会员详情</a></li>
+                                        <li><a href="{:url('order/index', array('user_id'=>$vo['id']))}" title='会员订单'><i class='fa fa-list'></i> 会员订单</a></li>
+                                        <!--<li><a href="{:url('finance/integral_Recharge', array('id'=>$vo['id']))}" title='充值积分'><i class='fa fa-credit-card'></i> 充值积分</a></li>-->
+                                        <!--<li><a href="{:url('finance/balance_Recharge', array('id'=>$vo['id']))}" title='充值余额'><i class='fa fa-money'></i> 充值余额 </a></li>-->
+                                        <li><a  href="javascript:void(0);" title='删除会员' class="delete" id = "{$vo['id']}"><i class='fa fa-remove'></i> 删除会员</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        {/volist}
+                        {/notempty}
+                    </tbody>
+                </table>
+                {$list->render()}
+        </div>
+</div>
+                
+
+
+{/block}
+{block name="script"}
+<script>
+$(function() {
+    // 删除
+    $('.delete').click(function(e) {
+        var id = this.id;
+        layer.confirm('是否确定删除', { icon: 3, title: '提示' }, function(index) {
+
+            $.post("{:url('member/member_delete')}", { id: id }, function(res) {
+                if (res.code) {
+                    layer.msg(res.msg, { icon: 6 });
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1000);
+                } else {
+                    layer.msg(res.msg, { icon: 5 });
+                }
+            });
+        });
+    });
+      // 设置黑名单
+      $('.isblack').click(function(e) {
+        var isblack     = $(this).attr('isblack');
+        var id          = $(this).attr('uid');
+        if(isblack == 1){
+            var stat = '确定取消黑名单';
+        }else{
+            var stat = '确定设置黑名单';
+        }
+        layer.confirm(stat, { icon: 3, title: '提示' }, function(index) {
+
+            $.post("{:url('member/member_isblack')}", { id: id,isblack:isblack }, function(res) {
+                if (res.code) {
+                    layer.msg(res.msg, { icon: 6 });
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1000);
+                } else {
+                    layer.msg(res.msg, { icon: 5 });
+                }
+            });
+        });
+    });
+});
+</script>
+{/block}

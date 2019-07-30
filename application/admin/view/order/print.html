@@ -1,0 +1,128 @@
+{extend name="common:base" /}
+{block name="style"}
+<style type="text/css">
+    .table>thead>tr>th {
+        text-align: center;
+    }
+</style>
+{/block}
+{block name="content"}
+<div class="ibox">
+      {volist name="order" id="order"}
+        <div class="ibox-content" style = "width:1000px;margin:auto;border:solid 1px #2cbca3;margin-bottom:30px;">
+                <div class="row">
+                        <div class="col-lg-12">
+                            <div class="m-b-md">
+                                <h3>订单详情</h3>
+                            </div>
+                            <table class="table  table-bordered text-center">
+                                    <tbody>
+                                    <tr>
+                                        <td class="col-lg-1 active text-right">下单日期：</td>
+                                        <td class="col-lg-2">{$order.add_time|date='Y-m-d H:i:s',###}</td>
+                                        <td class="col-lg-1 active text-right">订单号：</td>
+                                        <td class="col-lg-1">{$order.order_sn}</td>
+                                        <td class="col-lg-1 active text-right">支付方式：</td>
+                                        <td class="col-lg-1 active text-right">{$order.pay_name|default='在线支付'}</td>
+                                        <td class="col-lg-1 active text-right">用户留言：</td>
+                                        <td class="col-lg-2 active text-right">{$order.user_note}</td>
+                                    </tr>
+                                    <tr>
+                                            <td class="col-lg-1 active text-right">配送方式：</td>
+                                            <td class="col-lg-1 active text-right">{$order.shipping_name}</td>
+                                            <td class="col-lg-1 active text-right">订单总价：</td>
+                                            <td class="col-lg-1">{$order.total_amount}</td>
+                                            <td class="col-lg-1 active text-right">商品价格：</td>
+                                            <td class="col-lg-1 active text-right">{$order.goods_price}</td>
+                                            <td class="col-lg-1 active text-right">配送费用：</td>
+                                            <td class="col-lg-1">{$order.shipping_price}</td>
+                                    </tr>
+                                        <tr>
+                                            <td class="col-lg-1 active text-right">订单优惠：</td>
+                                            <td class="col-lg-1 active ">{$order.coupon_price}</td>
+                                            <td class="col-lg-1 active text-right">使用积分：</td>
+                                            <td class="col-lg-1">{$order.integral}</td>
+                                            <td class="col-lg-1 active ">使用余额：</td>
+                                            <td class="col-lg-1 active ">{$order.user_money}</td>
+                                            <td class="col-lg-1 active text-right">应付金额：</td>
+                                            <td class="col-lg-1">{$order.order_amount}</td>
+                                    </tr>
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="m-b-md">
+                            <h3>收货人信息</h3>
+                        </div>
+                        <table class="table  table-bordered text-center">
+                                <tbody>
+                                <tr>
+                                    <td class="col-lg-1 active text-right">收货人：</td>
+                                    <td class="col-lg-2">{$order.consignee}</td>
+                                    <td class="col-lg-1 active text-right">联系电话：</td>
+                                    <td class="col-lg-2">{$order.mobile}</td>
+                                    <td class="col-lg-1 active text-right">邮箱：</td>
+                                    <td class="col-lg-2">{$order.email}</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-lg-1 active text-right">收货地址：</td>
+                                    <td class="col-lg-1 active text-right">{$order.full_address}</td>
+                                    <td class="col-lg-1 active text-right">邮编：</td>
+                                    <td class="col-lg-1 active text-right">{if condition="$order.zipcode neq ''"} {$order.zipcode}{else/}N{/if}</td>
+                                  
+                                </tr>
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="m-b-md">
+                            <h3>商品信息</h3>
+                        </div>
+                        <table class="table  table-bordered text-center">
+                                <thead>
+                                        <tr>
+                                            <th>商品名称</th>
+                                            <th>状态</th>
+                                            <th>规格属性</th>
+                                            <th>数量</th>
+                                            <th>单价</th>
+                                            <th>单品小计</th>
+                                        </tr>
+                                    </thead>
+                                <tbody>
+                                        {volist name="order['orderGoods']" id="good"}
+                                                <tr>
+                                                    <td style="text-align: left;"><a href="{:url('Goods/addEditGoods',array('id'=>$good['goods_id']))}" target="_blank">{$good.goods_name}</a><br/></td>
+                                                    <td class="w60">
+                                                            {if condition="$good['is_send'] eq 1"}
+                                                                已发货
+                                                            {else /}
+                                                                未发货
+                                                            {/if}
+                                                    </td>
+                                                    <!-- <td class="w80">{$good.goods_sn}</td> -->
+                                                    <td class="w60">{$good.spec_key_name}</td>
+                                                    <td class="w100">{$good.goods_num}</td>
+                                                    <td class="w60">{$good['prom_type']==7?$good.goods_price:$good.member_goods_price}</td>
+                                                    <td class="w100">{$good.total_member_goods_price}</td>
+                                            </tr>
+                                        {/volist}
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+        </div>
+     {/volist}
+</div>
+
+{/block}
+
+{block name="script"}
+<script type="text/javascript">
+
+</script>
+ {/block}

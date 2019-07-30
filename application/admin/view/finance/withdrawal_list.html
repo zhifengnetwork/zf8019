@@ -1,0 +1,285 @@
+{extend name="common:base" /}
+{block name="style"}
+<style type="text/css">
+.table>thead>tr>th {
+    text-align: center;
+}
+
+.fant {
+    font-weight: 600;
+}
+</style>
+{/block}
+{block name="content"}
+<div class="ibox-content m-b-sm border-bottom">
+    <div class="row">
+            <form  method="get" action="{:url()}">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label" for="product_name">会员信息</label>
+                <input type="text" id="kw" name="kw" value="{$kw}" placeholder="可搜索会员昵称/姓名/手机号" class="form-control">
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label" for="price">申请单号</label>
+                <input type="text" id="ordersn" name="ordersn" value="{$ordersn}" placeholder="可搜索充值单号" class="form-control">
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label" for="status">审核状态</label>
+                <select name='status' class='form-control' style="width:150px;">
+                    <option value='0' {if $status=='0'}selected{/if}>默认全部</option>
+                    <option value='1' {if $status=='1'}selected{/if}>待审批</option>
+                    <option value='2' {if $status=='2'}selected{/if}>通过审批</option>
+                    <option value='-1' {if $status=='-1'}selected{/if}>审核不通过</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label" for="type">提现方式</label>
+                    <select name='type' class='form-control' style="width:150px;">
+                            {foreach $type_list as $key => $vo}
+                               <option value='{$key}' {if $type==$key}selected{/if}>{$vo}</option>
+                            {/foreach}
+                     </select>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label">提现时间</label>
+                <div class="input-daterange input-group" data-provide="datepicker">
+                    <input class="form-control input-sm" name="begin_time" type="text" value="{$begin_time}"/>
+                     <span class="input-group-addon">到</span>
+                    <input class="form-control input-sm" name="end_time" type="text" value="{$end_time}"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="control-label">审批时间</label>
+                    <div class="input-daterange input-group" data-provide="datepicker">
+                        <input class="form-control input-sm" name="ckbegin_time" type="text" value="{$ckbegin_time}"/>
+                         <span class="input-group-addon">到</span>
+                        <input class="form-control input-sm" name="ckend_time" type="text" value="{$ckend_time}"/>
+                    </div>
+                </div>
+            </div>
+
+        <div class="col-sm-2">
+            <div class="form-group">
+                <div>
+                    <button class="btn btn-primary">搜索</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>
+</div>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+       
+        <div class="col-lg-2">
+
+        </div>
+
+        <div class="ibox-content">
+                <div class="table-responsive">
+                    <table class="table  table-bordered table-hover text-center">
+                        <thead>
+                            <tr>
+                                <th>提现单号</th>
+                                <th>头像</th>
+                                <th>会员信息</th>
+                                <th>提现金额</th>
+                                <th>实际到账金额</th>
+                                <th>手续费率</th>
+                                <th>手续费</th>
+                                <th>账户名</th>
+                                <th>账号</th>
+                                <th>提现时间</th>
+                                <th>提现方式</th>
+                                <th>审批时间</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead> 
+                        <tbody>
+                            {notempty name="list"}
+                            {volist name="list" id="row"}
+                            <tr>
+                                    <td> {$row['ordersn']}</td>
+                                    <td>
+                                        <a href="{:url('member/member_edit',array('id' => $row['mid']));}" style="color: #003CB3;">
+                                            <img src='{$row['avatar']|default="http://thirdwx.qlogo.cn/mmopen/vi_32/MJ6gVyiavATSrwJYbUicfjmxOaHiczC2aiaoNOjpcjlfNC1lMlicxYjgtdMHGyhcKnic1JVHOEjrzWgAIwToKCfbYoIg/132"}' style='width:30px;height:30px;padding1px;border:1px solid #ccc' /> 
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {$row['realname']}
+                                        <br/>{$row['mobile']}
+                                    </td>
+                 
+                                    <td>{$row['money']}</td>
+                                    <td>{$row['account']}</td>
+                                    <td>{$row['rate']}%</td>
+                                    <td>{$row['taxfee']}</td>
+                                    <td>{$row['account_name']}</td>
+                                    <td>{$row['account_number']}</td>
+                
+                                    <td>{$row['createtime']|date="y-m-d H:i:s",###}</td>  
+                
+                                   
+                                    <td>
+                               
+                                        <span class='label label-warning'> {$row['type']} </span>
+                   
+                                    </td>
+                
+                
+                                    <td>
+                                   
+                                        {$row['checktime']|date="y-m-d H:i:s",###} 
+                                     
+                                    </td> 
+
+                                    <td>
+                                        {if $row['status']==1}
+                                        <span class='label label-default'>待审批</span>
+                                        {elseif $row['status']==2 /}
+                                        <span class='label label-success'>通过审批</span>
+                                        {elseif $row['status']== -1 /}
+                                        <span class='label label-success'>不通过审批</span>
+                                        {/if}
+                                    </td>
+                                    
+                                    <td>
+                
+                                        {if $row['status'] == -1}
+                
+                                            <a class='btn btn-default' data-toggle="modal" data-target="#myModal{$row['id']}"   style=" margin-top: 6px; background-color: #ff5858; color:#fff;">
+                                                不通过审批的理由
+                                            </a>
+                                            <br />
+
+                                            <div class="modal inmodal" id="myModal{$row['id']}" tabindex="-1" role="dialog" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content animated fadeIn">
+                                                                <div class="modal-header">
+                                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                                                        <h5>审批拒绝</h5>
+                                                                 </div>
+                                                            
+                                                            <form class = "form-horizontal form-add-filter" action="{:url('withdrawal')}" method="post">
+                                                                    <div class="modal-body">
+                                                                            <div class="form-group">
+                                                                                    <label class="col-sm-3 control-label">拒绝理由 </label>
+                                                                                    <div class="col-sm-8">
+                                                                                          <textarea class="form-control" name='content' rows="5">{$row['content']}</textarea>
+                                                                                    </div>
+                                                                             </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                          <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                                                                     </div>
+                                                             </form>  
+                                                        </div>
+                                                    </div>
+                                             </div>
+                
+                
+                                        {/if}
+                
+                                        {if $row['status'] == 1}
+                                                <a class='btn btn-default shenpi' id="{$row.id}"   style="background-color: #ffb034; color:#fff;" >
+                                                    通过审批
+                                                </a>
+                                            <br />  
+                
+                                            <a class='btn btn-default editxz'  data-id="{$row['id']}"  style=" margin-top: 6px; background-color: #ff5858; color:#fff;">
+                                                不通过审批
+                                            </a>
+                                            <br />
+
+                                         {/if}
+                        
+                                    </td>
+                                </tr>
+                            {/volist}
+                            {/notempty}
+                        </tbody>
+                    </table>
+                    {$list->render()}
+                </div>
+            </div>
+
+            <div class="modal inmodal" id="Modal1" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content animated fadeIn">
+                            <div class="modal-header">
+                                <h5>审批不通过原因</h5>
+                            </div>
+
+                            <form class = "form-horizontal form-add-filter" action="{:url('withdrawal')}" method="post">
+                                    <input type="hidden" name="status1" value="" >
+                                    <input type="hidden" name="id" value="">
+                                    <div class="modal-body">
+                                            <div class="form-group">
+                                                    <label class="col-sm-3 control-label">拒绝理由 </label>
+                                                    <div class="col-sm-8">
+                                                          <textarea class="form-control" name='content' rows="5" ></textarea>
+                                                    </div>
+                                             </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                           <button class="btn btn-primary ajax-post" target-form="form-add-filter" type="submit">提交</button>
+                                            <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                                        </div>
+                             </form> 
+                        </div>
+                    </div>
+             </div>
+    </div>
+{/block}
+
+{block name="script"}
+ 
+<script type="text/javascript">
+
+// 删除
+$('.shenpi').click(function(e) {
+    //href="{:url('finance/withdrawal',array('op'=>'pay','status'=>'2','id' => $row['id']));}" style="background-color: #ffb034; color:#fff;"
+    var id     = this.id;
+    var status = 2;
+    layer.confirm('是否确定通过审批', { icon: 3, title: '提示' }, function(index) {
+
+        $.post("{:url('finance/withdrawal')}", { status:status,id: id }, function(res) {
+            if (res.code) {
+                layer.msg(res.msg, { icon: 6 });
+                setTimeout(function() {
+                    location.reload();
+                }, 1000);
+            } else {
+                layer.msg(res.msg, { icon: 5 });
+            }
+        });
+    });
+});
+
+
+    // 审核拒绝
+    $('.editxz').click(function() {
+        var id = $(this).data('id');
+        $('[name="id"]').val(id);
+        $('[name="status1"]').val(-1);
+        $('#Modal1').modal();
+    });
+</script>
+{/block}
+

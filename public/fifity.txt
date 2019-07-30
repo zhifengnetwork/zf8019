@@ -1,0 +1,42 @@
+time:2019-07-16 11:13:08 0.44531200 1563246788
+array (
+  'notify_time' => '2019-07-16 10:50:08',
+  'notify_type' => 'trade_status_sync',
+  'notify_id' => '2019071600222102544015781044893177',
+  'app_id' => '2019050264367537',
+  'transaction_id' => '2019071622001415781050322706',
+  'order_no' => '1563243928release4711',
+  'out_biz_no' => '',
+  'buyer_id' => '2088912592715780',
+  'buyer_account' => '975***@qq.com',
+  'seller_id' => '2088531154918656',
+  'seller_email' => 'gzyx5558@163.com',
+  'trade_state' => 'success',
+  'amount' => '0.01',
+  'receipt_amount' => '0.01',
+  'invoice_amount' => '0.01',
+  'pay_amount' => '0.01',
+  0 => 'fifity.txt',
+)
+----------------------------------------------------------------------------------------------------
+time:2019-07-16 11:13:24 0.18359300 1563246804
+array (
+  'notify_time' => '2019-07-16 10:50:08',
+  'notify_type' => 'trade_status_sync',
+  'notify_id' => '2019071600222102544015781044893177',
+  'app_id' => '2019050264367537',
+  'transaction_id' => '2019071622001415781050322706',
+  'order_no' => '1563243928release4711',
+  'out_biz_no' => '',
+  'buyer_id' => '2088912592715780',
+  'buyer_account' => '975***@qq.com',
+  'seller_id' => '2088531154918656',
+  'seller_email' => 'gzyx5558@163.com',
+  'trade_state' => 'success',
+  'amount' => '0.01',
+  'receipt_amount' => '0.01',
+  'invoice_amount' => '0.01',
+  'pay_amount' => '0.01',
+  0 => 'fifity.txt',
+)
+----------------------------------------------------------------------------------------------------

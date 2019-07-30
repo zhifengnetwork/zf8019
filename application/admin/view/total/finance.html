@@ -1,0 +1,126 @@
+{extend name="common:base" /}
+{block name="style"}
+<style type="text/css">
+.table>thead>tr>th {
+    text-align: center;
+}
+
+.fant {
+    font-weight: 600;
+}
+</style>
+{/block}
+{block name="content"}
+<div class="ibox-content m-b-sm border-bottom">
+    <div class="row">
+        
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label" for="product_name">会员信息</label>
+                <input type="text" id="product_name" name="product_name" value="" placeholder="可搜索会员昵称/姓名/手机号" class="form-control">
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label" for="price">申请单号</label>
+                <input type="text" id="price" name="price" value="" placeholder="可搜索申请单号" class="form-control">
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label" for="status">状态</label>
+                <select name="status" id="status" class="form-control">
+                    <option value="0" selected>全部</option>
+                    <option value="1">待审批</option>
+                    <option value="2">通过审批</option>
+                    <option value="3">不通过审批</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label" for="status">提现方式</label>
+                <select name="status" id="status" class="form-control">
+                    <option value="0" selected>全部</option>
+                    <option value="1">微信</option>
+                    <option value="2">支付宝</option>
+                    <option value="3">银行卡</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label">提现时间</label>
+                <div class="input-daterange input-group" data-provide="datepicker">
+                    <input autocomplete="off" class="form-control" name="begin_time" placeholder="起始时间" type="text" value=""/>
+                    <span class="input-group-addon">到</span>
+                    <input autocomplete="off" class="form-control" name="end_time" placeholder="终止时间" type="text" value=""/>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label">审核时间</label>
+                <div class="input-daterange input-group" data-provide="datepicker">
+                    <input autocomplete="off" class="form-control" name="begin_time" placeholder="起始时间" type="text" value=""/>
+                    <span class="input-group-addon">到</span>
+                    <input autocomplete="off" class="form-control" name="end_time" placeholder="终止时间" type="text" value=""/>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label class="control-label" for="status">　</label>
+                <div>
+                    <button class="btn btn-primary">查询</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="ibox-content">
+    <div class="table-responsive">
+        <label class="control-label" for="status">总数: 0</label>
+        <table class="table  table-bordered table-hover text-center">
+            <thead>
+                <tr>
+                    <th>提现单号</th>
+                    <th class="col-lg-2">会员信息</th>
+                    <th>微信</th>
+                    <th>支付宝</th>
+                    <th>银行卡</th>
+                    <th>银行</th>
+                    <th>提现金额（元）</th>
+                    <th>实际到账金额（元）</th>
+                    <th>手续费（元）</th>
+                    <th>提现时间</th>
+                    <th>审批时间</th>
+                    <th>状态</th>
+                </tr>
+            </thead> 
+        </table>
+       
+    </div>
+</div>
+
+
+
+<div class="footer">
+    <div class="pull-right">
+        10GB of <strong>250GB</strong> Free.
+    </div>
+    <div>
+        <strong>Copyright</strong> Example Company &copy; 2019-2022
+    </div>
+</div>
+
+
+{/block}
