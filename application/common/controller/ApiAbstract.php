@@ -52,30 +52,19 @@ class ApiAbstract extends Controller
     /**
      * 发送手机验证码
      * @param $mobile   手机号
-     * @param $temp     sms_forget；sms_reg
-     * @param $auth     md5($mobile . $temp)
+     * @param $auth     md5($mobile)
      * @param $type     默认为1
      * @return array    'status' => 1 , 'msg'=>'发送成功！'   status 1:表示发送成功；-2 表示发送失败；
      */
-    public function sendPhoneCode($mobile,$temp,$auth,$type)
+    public function sendPhoneCode($mobile,$auth,$type)
     {
 
-        if( !$mobile || ($temp != 'sms_forget' && $temp != 'sms_reg' ) || !$auth ){
+        if( !$mobile || !$auth ){
             return ['status'=>-1,'msg'=>'参数错误'];
         }
-
-        $Md5 = md5($mobile . $temp);
+        $Md5 = md5($mobile);
         if( $Md5 != $auth ){
             return ['status' => -2 , 'msg'=>'非法请求！'];
-        }
-        $member = Db::table('member')->where('mobile',$mobile)->value('id');
-        if($type == 1){
-            if (($temp == 'sms_forget') && empty($member)) {
-                return ['status' => -2 , 'msg'=>'此手机号未注册！'];
-            }
-            if (($temp == 'sms_reg') && !(empty($member))) {
-                return ['status' => -2 , 'msg'=>'此手机号已注册，请直接登录！'];
-            }
         }
         $phone_number = checkMobile($mobile);
         if ($phone_number == false) {
@@ -102,7 +91,10 @@ class ApiAbstract extends Controller
 //      测试默认通过  zgp
 //        $ret['message'] = 'ok';
 //        正式启动验证码 zgp
-        $ret = send_zhangjun($mobile, $code);
+        // $ret = send_zhangjun($mobile, $code);   //正式启用这个
+
+        $ret['message'] = 'ok';   //测试用
+
         if($ret['message'] == 'ok'){
             return ['status' => 1 , 'msg'=>'发送成功！'];
         }
