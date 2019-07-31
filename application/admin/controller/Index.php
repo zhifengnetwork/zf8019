@@ -4,6 +4,7 @@ namespace app\admin\controller;
 
 
 use app\common\model\Sales;
+use app\common\model\Recommend;
 use Payment\Config;
 use think\Loader;
 use think\Request;
@@ -16,6 +17,16 @@ class Index extends Common
 {
     public function index()
     {
+        // $data = [
+        //     'user_id' => 27759, //用户id
+        //     'order_id' => 1,
+        //     'Profit_id' => 2, //收益id
+        //     'money' => 200,
+        // ];
+
+        // $Recommend = new Recommend;
+        // $data = $Recommend->index($data);
+        // die;
         $orderNo = 121321;
         $Sales = new Sales(27871, 132123, 0);
         $rest = $Sales->reward_fifty(27871, $orderNo, $orderNo, 30);

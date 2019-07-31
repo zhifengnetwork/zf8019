@@ -1,24 +1,63 @@
 <?php
+
 use think\Db;
 use think\Cache;
 use think\Loader;
 
-function pre($data){
+/**
+ * 记录帐户变动
+ * @param   int $user_id 用户id
+ * @param   int $user_money 可用余额变动
+ * @param   string $desc 变动说明
+ * @param   int    distribut_money 分佣金额
+ * @param int $order_id 订单id
+ * @return  bool
+ */
+function accountLog($user_id, $source_type, $user_money = 0, $note = '', $distribut_money = 0, $order_id = 0)
+{
+    /* 插入帐户变动记录 */
+    $account_log = array(
+        'user_id' => $user_id,
+        'balance' => $user_money,
+        'source_type' => $source_type,
+        'create_time' => time(),
+        'note' => $note,
+        'order_id' => $order_id
+    );
+    /* 更新用户信息 */
+    $update_data = array(
+        'remainder_money' => Db::raw('remainder_money+' . $user_money),
+        'distribut_money' => Db::raw('distribut_money+' . $distribut_money)
+    );
+    if (($user_money + $distribut_money) == 0) return false;
+    $update = Db::name('member')->where("id = $user_id")->save($update_data);
+    if ($update) {
+        Db::name('menber_balance_log')->insert($account_log);
+        // return true;
+    } else {
+        return false;
+    }
+}
+
+function pre($data)
+{
     echo '<pre>';
     print_r($data);
 }
 
-function pred($data){
+function pred($data)
+{
     echo '<pre>';
-    print_r($data);die;
+    print_r($data);
+    die;
 }
-function request_curl( $url , $data = null ){
+function request_curl($url, $data = null)
+{
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
-    if( !empty($data) )
-    {
-        @curl_setopt($ch, CURLOPT_POST, 1); 
-        @curl_setopt($ch, CURLOPT_POSTFIELDS, $data);   
+    if (!empty($data)) {
+        @curl_setopt($ch, CURLOPT_POST, 1);
+        @curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     }
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
@@ -32,7 +71,8 @@ function request_curl( $url , $data = null ){
  * @param string $user_name 姓名
  * @return string 格式化后的姓名
  */
-function substr_cut($user_name){
+function substr_cut($user_name)
+{
     $strlen     = mb_strlen($user_name, 'utf-8');
     $firstStr     = mb_substr($user_name, 0, 1, 'utf-8');
     $lastStr     = mb_substr($user_name, -1, 1, 'utf-8');
@@ -40,66 +80,73 @@ function substr_cut($user_name){
 }
 
 //获取所有下级id
-function get_all_lower($user_id){
+function get_all_lower($user_id)
+{
     $all_lower = Db::query("select `user_id` from `parents_cache` where find_in_set($user_id,parents)");
     $all_lower_ids = array();
     if ($all_lower) {
-        $all_lower_ids = array_column($all_lower,'user_id');
+        $all_lower_ids = array_column($all_lower, 'user_id');
     }
 
     return $all_lower_ids;
 }
 
 //获取所有上级id
-function get_parents_ids($user_id){
-    $parents_cache = Db::name('parents_cache')->where('user_id',$user_id)->order('sort','asc')->select();
+function get_parents_ids($user_id)
+{
+    $parents_cache = Db::name('parents_cache')->where('user_id', $user_id)->order('sort', 'asc')->select();
     $parent_ids = array();
     foreach ($parents_cache as $key => $value) {
-        $parent_arr = array_filter(explode(',',$value['parents']));
+        $parent_arr = array_filter(explode(',', $value['parents']));
         $parents_cache[$key]['parents'] = $parent_arr;
-        $parent_ids = array_merge($parent_ids,$parent_arr);
+        $parent_ids = array_merge($parent_ids, $parent_arr);
     }
     return $parent_ids;
 }
 
-function get_randMoney($money_total = 20 , $personal_num = 10){
-    $min_money    = $money_total/$personal_num - $money_total/$personal_num*0.1;
+function get_randMoney($money_total = 20, $personal_num = 10)
+{
+    $min_money    = $money_total / $personal_num - $money_total / $personal_num * 0.1;
     $money_right  = $money_total;
-    $randMoney=[];
-    for($i=1;$i<=$personal_num;$i++){
-        if($i== $personal_num){
-            $money=$money_right;
-        }else{
-            $max=$money_right*100 - ($personal_num - $i ) * $min_money *100;
-            $money= rand($min_money*100,$max) /100;
-            $money=sprintf("%.2f",$money);
-            }
-            $randMoney[]=$money;
-            $money_right=$money_right - $money;
-            $money_right=sprintf("%.2f",$money_right);
+    $randMoney = [];
+    for ($i = 1; $i <= $personal_num; $i++) {
+        if ($i == $personal_num) {
+            $money = $money_right;
+        } else {
+            $max = $money_right * 100 - ($personal_num - $i) * $min_money * 100;
+            $money = rand($min_money * 100, $max) / 100;
+            $money = sprintf("%.2f", $money);
+        }
+        $randMoney[] = $money;
+        $money_right = $money_right - $money;
+        $money_right = sprintf("%.2f", $money_right);
     }
     shuffle($randMoney);
     return  $randMoney;
 }
 //获取区间刀
-function get_qujian($chopper_id){
-    $section = Db::name('goods_chopper')->where(['chopper_id' =>$chopper_id])->value('section');
+function get_qujian($chopper_id)
+{
+    $section = Db::name('goods_chopper')->where(['chopper_id' => $chopper_id])->value('section');
     $section = unserialize($section);
     $qe_amount = ($section['end'] - $section['start'] + 1) * $section['amount'];
-    $res     = '第'.$section['start'].'刀到第'.$section['end'].'刀每刀砍价'.$section['amount'].'元一共'.$qe_amount.'元';
+    $res     = '第' . $section['start'] . '刀到第' . $section['end'] . '刀每刀砍价' . $section['amount'] . '元一共' . $qe_amount . '元';
     return $res;
 }
 
 //树结构
-function getTree1($items,$pid ="pid") {
+function getTree1($items, $pid = "pid")
+{
     $map  = [];
     $tree = [];
-    foreach ($items as &$it){ $map[$it['cat_id']] = &$it; }  //数据的ID名生成新的引用索引树
-    foreach ($items as &$at){
+    foreach ($items as &$it) {
+        $map[$it['cat_id']] = &$it;
+    }  //数据的ID名生成新的引用索引树
+    foreach ($items as &$at) {
         $parent = &$map[$at[$pid]];
-        if($parent) {
+        if ($parent) {
             $parent['children'][] = &$at;
-        }else{
+        } else {
             $tree[] = &$at;
         }
     }
@@ -115,22 +162,23 @@ function checkMobile($mobilePhone)
     }
 }
 
-function send_zhangjun($mobile,$code){//掌骏
-    
-    $content = "【NewRetial】您的手机验证码为：".$code."，该短信1分钟内有效。如非本人操作，可不用理会！";
-    $time=date('ymdhis',time());
-//    $arr=array('uname'=>"hsxx40",'pwd'=>"hsxx40",'time'=>$time);
-    $arr=array('uname'=>"qx3983",'pwd'=>"20190716",'time'=>$time);
-    $signPars='';
-    foreach($arr as $v) {
-        $signPars .=$v;
+function send_zhangjun($mobile, $code)
+{ //掌骏
+
+    $content = "【NewRetial】您的手机验证码为：" . $code . "，该短信1分钟内有效。如非本人操作，可不用理会！";
+    $time = date('ymdhis', time());
+    //    $arr=array('uname'=>"hsxx40",'pwd'=>"hsxx40",'time'=>$time);
+    $arr = array('uname' => "qx3983", 'pwd' => "20190716", 'time' => $time);
+    $signPars = '';
+    foreach ($arr as $v) {
+        $signPars .= $v;
     }
     $sign = strtolower(md5($signPars));
-//    $arrs=array('userid'=>"9795",'timestamp'=>$time,'sign'=>$sign,'mobile'=>$mobile,'content'=>$content,'action'=>'send');
-    $arrs=array('userid'=>"3076",'timestamp'=>$time,'sign'=>$sign,'mobile'=>$mobile,'content'=>$content,'action'=>'send');
-//    $url='http://120.77.14.55:8888/v2sms.aspx';
-    $url='http://120.25.105.164:8888/v2sms.aspx';
-    $ret=call($url, $arrs);
+    //    $arrs=array('userid'=>"9795",'timestamp'=>$time,'sign'=>$sign,'mobile'=>$mobile,'content'=>$content,'action'=>'send');
+    $arrs = array('userid' => "3076", 'timestamp' => $time, 'sign' => $sign, 'mobile' => $mobile, 'content' => $content, 'action' => 'send');
+    //    $url='http://120.77.14.55:8888/v2sms.aspx';
+    $url = 'http://120.25.105.164:8888/v2sms.aspx';
+    $ret = call($url, $arrs);
     return $ret;
 }
 
@@ -139,21 +187,22 @@ function send_zhangjun($mobile,$code){//掌骏
  * @param $mobile
  * @return mixed
  */
-function send_zhangjun_seller($mobile){
+function send_zhangjun_seller($mobile)
+{
     $content = "【NewRetial】您发布的商品有用户已购买，请在5分钟内确认订单！";
-    $time=date('ymdhis',time());
-//    $arr=array('uname'=>"hsxx40",'pwd'=>"hsxx40",'time'=>$time);
-    $arr=array('uname'=>"qx3983",'pwd'=>"20190716",'time'=>$time);
-    $signPars='';
-    foreach($arr as $v) {
-        $signPars .=$v;
+    $time = date('ymdhis', time());
+    //    $arr=array('uname'=>"hsxx40",'pwd'=>"hsxx40",'time'=>$time);
+    $arr = array('uname' => "qx3983", 'pwd' => "20190716", 'time' => $time);
+    $signPars = '';
+    foreach ($arr as $v) {
+        $signPars .= $v;
     }
     $sign = strtolower(md5($signPars));
-//    $arrs=array('userid'=>"9795",'timestamp'=>$time,'sign'=>$sign,'mobile'=>$mobile,'content'=>$content,'action'=>'send');
-    $arrs=array('userid'=>"3076",'timestamp'=>$time,'sign'=>$sign,'mobile'=>$mobile,'content'=>$content,'action'=>'send');
-//    $url='http://120.77.14.55:8888/v2sms.aspx';
-    $url='http://120.25.105.164:8888/v2sms.aspx';
-    $ret=call($url, $arrs);
+    //    $arrs=array('userid'=>"9795",'timestamp'=>$time,'sign'=>$sign,'mobile'=>$mobile,'content'=>$content,'action'=>'send');
+    $arrs = array('userid' => "3076", 'timestamp' => $time, 'sign' => $sign, 'mobile' => $mobile, 'content' => $content, 'action' => 'send');
+    //    $url='http://120.77.14.55:8888/v2sms.aspx';
+    $url = 'http://120.25.105.164:8888/v2sms.aspx';
+    $ret = call($url, $arrs);
     return $ret;
 }
 
@@ -162,31 +211,33 @@ function send_zhangjun_seller($mobile){
  * @param $mobile
  * @return mixed
  */
-function send_zhangjun_buyer($mobile){
+function send_zhangjun_buyer($mobile)
+{
     $content = "【NewRetial】您提交的支付凭证已发送给商家，系统会在5分钟确认订单支付！";
-    $time=date('ymdhis',time());
-//    $arr=array('uname'=>"hsxx40",'pwd'=>"hsxx40",'time'=>$time);
-    $arr=array('uname'=>"qx3983",'pwd'=>"20190716",'time'=>$time);
-    $signPars='';
-    foreach($arr as $v) {
-        $signPars .=$v;
+    $time = date('ymdhis', time());
+    //    $arr=array('uname'=>"hsxx40",'pwd'=>"hsxx40",'time'=>$time);
+    $arr = array('uname' => "qx3983", 'pwd' => "20190716", 'time' => $time);
+    $signPars = '';
+    foreach ($arr as $v) {
+        $signPars .= $v;
     }
     $sign = strtolower(md5($signPars));
-//    $arrs=array('userid'=>"9795",'timestamp'=>$time,'sign'=>$sign,'mobile'=>$mobile,'content'=>$content,'action'=>'send');
-    $arrs=array('userid'=>"3076",'timestamp'=>$time,'sign'=>$sign,'mobile'=>$mobile,'content'=>$content,'action'=>'send');
-//    $url='http://120.77.14.55:8888/v2sms.aspx';
-    $url='http://120.25.105.164:8888/v2sms.aspx';
-    $ret=call($url, $arrs);
+    //    $arrs=array('userid'=>"9795",'timestamp'=>$time,'sign'=>$sign,'mobile'=>$mobile,'content'=>$content,'action'=>'send');
+    $arrs = array('userid' => "3076", 'timestamp' => $time, 'sign' => $sign, 'mobile' => $mobile, 'content' => $content, 'action' => 'send');
+    //    $url='http://120.77.14.55:8888/v2sms.aspx';
+    $url = 'http://120.25.105.164:8888/v2sms.aspx';
+    $ret = call($url, $arrs);
     return $ret;
 }
 
-function call($url,$arr,$second = 30){
+function call($url, $arr, $second = 30)
+{
     $ch = curl_init();
     //设置超时
     curl_setopt($ch, CURLOPT_TIMEOUT, $second);
-    curl_setopt($ch,CURLOPT_URL, $url);
-    curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,FALSE);
-    curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,0);//严格校验
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0); //严格校验
 
     //设置header
     curl_setopt($ch, CURLOPT_HEADER, FALSE);
@@ -202,23 +253,27 @@ function call($url,$arr,$second = 30){
     return $data;
 }
 
-function xmlToArray($xml){
+function xmlToArray($xml)
+{
     //禁止引用外部xml实体
     libxml_disable_entity_loader(true);
     $values = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
     return $values;
 }
 //判断是否是微信    
-function is_weixin() {
+function is_weixin()
+{
     if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) {
         return true;
-    } return false;
+    }
+    return false;
 }
 
 /***
  * 调用微信sdk
  */
-function wxJSSDK(){
+function wxJSSDK()
+{
     $wx_config     = config('wx_config');
     $appId         = $wx_config['appid'];
     $appSecret     = $wx_config['appsecret'];
@@ -230,7 +285,8 @@ function wxJSSDK(){
 /**
  * 对象转数组操作
  **/
-function ota($data){
+function ota($data)
+{
     $array = json_decode(json_encode($data), true);
     return $array;
 }
@@ -369,7 +425,7 @@ function curl_post_query($url, $data)
     // var_dump(curl_error($ch));
     //运行curl,请求网页。
     curl_close($ch);
-    
+
     // var_dump($data);
     // exit;
     //显示获得的数据
@@ -414,7 +470,7 @@ function dayfast($the_time)
                     return floor($dur / 3600) . '小时前';
                 } else {
                     if ($dur < 259200) {
-//3天内
+                        //3天内
                         return floor($dur / 86400) . '天前';
                     } else {
                         $the_time = date("Y-m-d", $the_time);
@@ -436,7 +492,8 @@ function get_real_ip()
         $ips = explode(', ', $_SERVER['HTTP_X_FORWARDED_FOR']);
         if ($ip) {
             array_unshift($ips, $ip);
-            $ip = false;}
+            $ip = false;
+        }
         for ($i = 0; $i < count($ips); $i++) {
             if (!preg_match('/^(10│172.16│192.168)./i', $ips[$i])) {
                 $ip = $ips[$i];
@@ -554,20 +611,21 @@ function get_file_name($id, $rounds, $bankerWinCount)
 }
 
 
-function get_balance($user_id,$type){
-    $res = Db::name('member_balance')->where(['user_id' => $user_id,'balance_type' => $type])->find();
-    if(!empty($res)){
-           return $res;
-    }else{
+function get_balance($user_id, $type)
+{
+    $res = Db::name('member_balance')->where(['user_id' => $user_id, 'balance_type' => $type])->find();
+    if (!empty($res)) {
+        return $res;
+    } else {
         $insert = [
             'user_id'        => $user_id,
             'balance_type'   => $type,
             'create_time'    => time(),
             'update_time'    => time(),
         ];
-             Db::name('member_balance')->insert($insert);
-      $res = Db::name('member_balance')->where(['user_id' => $user_id,'balance_type' => $type])->find();
-      return $res;
+        Db::name('member_balance')->insert($insert);
+        $res = Db::name('member_balance')->where(['user_id' => $user_id, 'balance_type' => $type])->find();
+        return $res;
     }
 }
 /**
@@ -589,11 +647,12 @@ function getPayBody($order_id)
 /**
  *   实现中文字串截取无乱码的方法
  */
-function getSubstr($string, $start, $length) {
-    if(mb_strlen($string,'utf-8')>$length){
-        $str = mb_substr($string, $start, $length,'utf-8');
-        return $str.'...';
-    }else{
+function getSubstr($string, $start, $length)
+{
+    if (mb_strlen($string, 'utf-8') > $length) {
+        $str = mb_substr($string, $start, $length, 'utf-8');
+        return $str . '...';
+    } else {
         return $string;
     }
 }
@@ -673,7 +732,6 @@ function get_period_time($type = 'day', $now = 0, $fmt = 0)
             $rs['beginTime'] = date("2017-10-10", time());
             $rs['endTime']   = date('Y-m-' . intval(date('d')) . ' 23:59:59', strtotime('-3 month'));
             break;
-
     }
     if ($rs && $fmt == 0) {
         $rs['beginTime'] = strtotime($rs['beginTime']);
@@ -726,59 +784,59 @@ function api_public_key()
  * title 第一行的标题 [A,B]
  * data 封装的数组,对应title的位置[['A','B'],[]]
  * */
-function excel_export($file_name,$title,$data){
-	if(count($title)<1||count($data)<1){
-		return false;
-	}
-	
-	vendor('PHPExcel.PHPExcel');
-	$objPHPExcel = new \PHPExcel();
-	$sheet=$objPHPExcel->setActiveSheetIndex(0);
-	
-	$colunm_num=count($title);
-	$letter=range('A', 'Z');
-	$letter=array_slice($letter, 0,$colunm_num);
-	
-	for($j=0;$j<$colunm_num;$j++){
-		$sheet->setCellValue($letter[$j].'1',$title[$j]);
-	}
-	
-	$i=2;
-		
-	foreach ((array)$data as $val){
-	
-		//设置为文本格式
-		for($j=0;$j<count($letter);$j++){
-			$sheet->setCellValue($letter[$j].$i,$val[$j]);
-			
-			$objPHPExcel->getActiveSheet()->getStyle($letter[$j].$i)->getNumberFormat()
-			->setFormatCode(\PHPExcel_Style_NumberFormat::FORMAT_TEXT);
-		}
-	
-		++$i;
-	}
-		
-	header('Content-Type: application/vnd.ms-excel');
-	header('Content-Disposition: attachment;filename="'.$file_name.'.xls"');
-	header('Cache-Control: max-age=0');
-	$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-	$objWriter->save('php://output');
-	exit;
-	
-}
-
-//二维数组排序
-function towArraySort ($data,$key,$order = SORT_ASC) {
-    try{
-        //        dump($data);
-        $last_names = array_column($data,$key);
-        array_multisort($last_names,$order,$data);
-//        dump($data);
-        return $data;
-    }catch (\Exception $e){
+function excel_export($file_name, $title, $data)
+{
+    if (count($title) < 1 || count($data) < 1) {
         return false;
     }
 
+    vendor('PHPExcel.PHPExcel');
+    $objPHPExcel = new \PHPExcel();
+    $sheet = $objPHPExcel->setActiveSheetIndex(0);
+
+    $colunm_num = count($title);
+    $letter = range('A', 'Z');
+    $letter = array_slice($letter, 0, $colunm_num);
+
+    for ($j = 0; $j < $colunm_num; $j++) {
+        $sheet->setCellValue($letter[$j] . '1', $title[$j]);
+    }
+
+    $i = 2;
+
+    foreach ((array) $data as $val) {
+
+        //设置为文本格式
+        for ($j = 0; $j < count($letter); $j++) {
+            $sheet->setCellValue($letter[$j] . $i, $val[$j]);
+
+            $objPHPExcel->getActiveSheet()->getStyle($letter[$j] . $i)->getNumberFormat()
+                ->setFormatCode(\PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+        }
+
+        ++$i;
+    }
+
+    header('Content-Type: application/vnd.ms-excel');
+    header('Content-Disposition: attachment;filename="' . $file_name . '.xls"');
+    header('Cache-Control: max-age=0');
+    $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+    $objWriter->save('php://output');
+    exit;
+}
+
+//二维数组排序
+function towArraySort($data, $key, $order = SORT_ASC)
+{
+    try {
+        //        dump($data);
+        $last_names = array_column($data, $key);
+        array_multisort($last_names, $order, $data);
+        //        dump($data);
+        return $data;
+    } catch (\Exception $e) {
+        return false;
+    }
 }
 
 
@@ -830,7 +888,7 @@ function tpCache($config_key, $data = array())
                     if ($v != $temp[$k]) {
                         Db::name('tp_config')->where("name", $k)->save($newArr);
                     }
-//缓存key存在且值有变更新此项
+                    //缓存key存在且值有变更新此项
                 }
             }
             //更新后的数据库记录
@@ -847,14 +905,14 @@ function tpCache($config_key, $data = array())
         }
         return F($param[0], $newData, TEMP_PATH);
     }
-
 }
 /**
  * 检查手机号码格式
  * @param $mobile 手机号码
  */
-function check_mobile($mobile){
-    if(preg_match('/1[34578]\d{9}$/',$mobile))
+function check_mobile($mobile)
+{
+    if (preg_match('/1[34578]\d{9}$/', $mobile))
         return true;
     return false;
 }
@@ -864,13 +922,14 @@ function check_mobile($mobile){
  * 单图上传
  * @param $image 图片字段名
  */
-function uploadOne($image){
+function uploadOne($image)
+{
     $file = request()->file($image);
-    if($file){
-        $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads'. DS . 'pay_picture');
-        if($info){
-            return $info->getFilename(); 
-        }else{
+    if ($file) {
+        $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads' . DS . 'pay_picture');
+        if ($info) {
+            return $info->getFilename();
+        } else {
             // 上传失败获取错误信息
             return false;
         }
@@ -882,13 +941,14 @@ function uploadOne($image){
  * @param $image
  * @return bool|string
  */
-function uploadTou($image){
+function uploadTou($image)
+{
     $file = request()->file($image);
-    if($file){
-        $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads'. DS . 'tou');
-        if($info){
+    if ($file) {
+        $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads' . DS . 'tou');
+        if ($info) {
             return $info->getFilename();
-        }else{
+        } else {
             // 上传失败获取错误信息
             return false;
         }
@@ -901,7 +961,7 @@ function uploadTou($image){
  * @param int $_current_index
  * @return array
  */
-function getArrSet($arrs,$_current_index=-1)
+function getArrSet($arrs, $_current_index = -1)
 {
     //总数组
     static $_total_arr;
@@ -913,39 +973,31 @@ function getArrSet($arrs,$_current_index=-1)
     static $_temp_arr;
 
     //进入输入数组的第一层，清空静态数组，并初始化输入数组长度
-    if($_current_index<0)
-    {
-        $_total_arr=array();
-        $_total_arr_index=0;
-        $_temp_arr=array();
-        $_total_count=count($arrs)-1;
-        getArrSet($arrs,0);
-    }
-    else
-    {
+    if ($_current_index < 0) {
+        $_total_arr = array();
+        $_total_arr_index = 0;
+        $_temp_arr = array();
+        $_total_count = count($arrs) - 1;
+        getArrSet($arrs, 0);
+    } else {
         //循环第$_current_index层数组
-        foreach($arrs[$_current_index] as $v)
-        {
+        foreach ($arrs[$_current_index] as $v) {
             //如果当前的循环的数组少于输入数组长度
-            if($_current_index<$_total_count)
-            {
+            if ($_current_index < $_total_count) {
                 //将当前数组循环出的值放入临时数组
-                $_temp_arr[$_current_index]=$v;
+                $_temp_arr[$_current_index] = $v;
                 //继续循环下一个数组
-                getArrSet($arrs,$_current_index+1);
-
+                getArrSet($arrs, $_current_index + 1);
             }
             //如果当前的循环的数组等于输入数组长度(这个数组就是最后的数组)
-            else if($_current_index==$_total_count)
-            {
+            else if ($_current_index == $_total_count) {
                 //将当前数组循环出的值放入临时数组
-                $_temp_arr[$_current_index]=$v;
+                $_temp_arr[$_current_index] = $v;
                 //将临时数组加入总数组
-                $_total_arr[$_total_arr_index]=$_temp_arr;
+                $_total_arr[$_total_arr_index] = $_temp_arr;
                 //总数组下标计数+1
                 $_total_arr_index++;
             }
-
         }
     }
     return $_total_arr;
