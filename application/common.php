@@ -117,7 +117,7 @@ function checkMobile($mobilePhone)
 
 function send_zhangjun($mobile,$code){//掌骏
     
-    $content = "【NewRetial】您的手机验证码为：".$code."，该短信1分钟内有效。如非本人操作，可不用理会！";
+    $content = "【8019】您的手机验证码为：".$code."，该短信1分钟内有效。如非本人操作，可不用理会！";
     $time=date('ymdhis',time());
 //    $arr=array('uname'=>"hsxx40",'pwd'=>"hsxx40",'time'=>$time);
     $arr=array('uname'=>"qx3983",'pwd'=>"20190716",'time'=>$time);
