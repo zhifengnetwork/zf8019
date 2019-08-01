@@ -162,18 +162,6 @@ function checkMobile($mobilePhone)
     }
 }
 
-<<<<<<< HEAD
-function send_zhangjun($mobile, $code)
-{ //掌骏
-
-    $content = "【NewRetial】您的手机验证码为：" . $code . "，该短信1分钟内有效。如非本人操作，可不用理会！";
-    $time = date('ymdhis', time());
-    //    $arr=array('uname'=>"hsxx40",'pwd'=>"hsxx40",'time'=>$time);
-    $arr = array('uname' => "qx3983", 'pwd' => "20190716", 'time' => $time);
-    $signPars = '';
-    foreach ($arr as $v) {
-        $signPars .= $v;
-=======
 function send_zhangjun($mobile,$code){//掌骏
     
     $content = "【8019】您的手机验证码为：".$code."，该短信1分钟内有效。如非本人操作，可不用理会！";
@@ -183,7 +171,6 @@ function send_zhangjun($mobile,$code){//掌骏
     $signPars='';
     foreach($arr as $v) {
         $signPars .=$v;
->>>>>>> edcc7587b78a3483392c45e0db6fa33df0ed1fe6
     }
     $sign = strtolower(md5($signPars));
     //    $arrs=array('userid'=>"9795",'timestamp'=>$time,'sign'=>$sign,'mobile'=>$mobile,'content'=>$content,'action'=>'send');
