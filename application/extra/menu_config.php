@@ -87,6 +87,13 @@ return [
                         'url'   => 'advertisement/announce',
                         'hide'  => 1,
                     ],
+                    [
+                        'id'    => 210303,
+                        'title' => '资讯列表',
+                        'sort'  => 1,
+                        'url'   => 'advertisement/info',
+                        'hide'  => 1,
+                    ],
                 ],
             ],
             [
