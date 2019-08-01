@@ -46,32 +46,32 @@ return [
                         'hide'  => 1,
                     ],
                     [
-                         'id'    => 20105,
-                         'title' => '页面广告轮播',
-                         'sort'  => 1,
-                         'url'   => 'advertisement/index',
-                         'hide'  => 1,
+                        'id'    => 20105,
+                        'title' => '页面广告轮播',
+                        'sort'  => 1,
+                        'url'   => 'advertisement/index',
+                        'hide'  => 1,
                     ],
                     [
-                         'id'    => 20106,
-                         'title' => '轮播图编辑',
-                         'sort'  => 1,
-                         'url'   => 'advertisement/edit',
-                         'hide'  => 0,
+                        'id'    => 20106,
+                        'title' => '轮播图编辑',
+                        'sort'  => 1,
+                        'url'   => 'advertisement/edit',
+                        'hide'  => 0,
                     ],
                     [
-                         'id'    => 20107,
-                         'title' => '页面编辑',
-                         'sort'  => 1,
-                         'url'   => 'advertisement/page_edit',
-                         'hide'  => 0,
+                        'id'    => 20107,
+                        'title' => '页面编辑',
+                        'sort'  => 1,
+                        'url'   => 'advertisement/page_edit',
+                        'hide'  => 0,
                     ],
                     [
-                         'id'    => 20108,
-                         'title' => '广告轮播列表',
-                         'sort'  => 1,
-                         'url'   => 'advertisement/list',
-                         'hide'  => 1,
+                        'id'    => 20108,
+                        'title' => '广告轮播列表',
+                        'sort'  => 1,
+                        'url'   => 'advertisement/list',
+                        'hide'  => 1,
                     ],
                     [
                         'id'    => 20109,
@@ -79,14 +79,14 @@ return [
                         'sort'  => 4,
                         'url'   => 'config/index',
                         'hide'  => 1,
-                   ],
-                   [
-                    'id'    => 20110,
-                    'title' => '公告列表',
-                    'sort'  => 1,
-                    'url'   => 'advertisement/announce',
-                    'hide'  => 1,
-                  ],
+                    ],
+                    [
+                        'id'    => 20110,
+                        'title' => '公告列表',
+                        'sort'  => 1,
+                        'url'   => 'advertisement/announce',
+                        'hide'  => 1,
+                    ],
                 ],
             ],
             [
@@ -156,8 +156,8 @@ return [
             ],
         ],
     ],
-       //商品模块
-       'goods'      => [
+    //商品模块
+    'goods'      => [
         'id'    => 30000,
         'title' => '商品模块',
         'sort'  => 2,
@@ -218,9 +218,7 @@ return [
                         'sort'  => 1,
                         'url'   => 'goods/index',
                         'hide'  => 1,
-                        'child' => [
-                            
-                        ],
+                        'child' => [],
                     ],
                     [
                         'id'    => 30102,
@@ -243,9 +241,7 @@ return [
                         'url'   => 'goods/goods_delivery_list',
                         'hide'  => 1,
                         'icon'  => 'fa-th-large',
-                        'child' => [
-                            
-                        ],
+                        'child' => [],
                     ],
                     [
                         'id'    => 30105,
@@ -450,7 +446,7 @@ return [
                         'url'   => 'order/fifty_order',
                         'hide'  => 1,
                     ],
-                    
+
                 ],
 
             ],
@@ -468,7 +464,7 @@ return [
                     //     'sort'  => 1,
                     //     'url'   => 'order/senduser',
                     //     'hide'  => 1,
-                      
+
                     // ],
                     // [
                     //     'id'    => 40302,
@@ -504,8 +500,8 @@ return [
         ],
     ],
 
-      //数据分析
-      'baobiao'      => [
+    //数据分析
+    'baobiao'      => [
         'id'    => 60000,
         'title' => '财务管理',
         'sort'  => 2,
@@ -572,17 +568,17 @@ return [
                         'url'   => 'finance/withdrawalset',
                         'hide'  => 1,
                     ],
-                   
+
                 ],
             ],
-           
-         ],
-     ],
+
+        ],
+    ],
 
 
 
-    
-    
+
+
     // //配置管理
     // 'pz_config' => [
     //     'id'    => 50000,
@@ -652,7 +648,7 @@ return [
                 'hide'  => 1,
                 'icon'  => 'fa-th-large',
                 'child' => [
-                   
+
                     [
                         'id'    => 210101,
                         'title' => '编辑',
@@ -691,7 +687,7 @@ return [
                 'hide'  => 1,
                 'icon'  => 'fa-th-large',
                 'child' => [
-                  
+
                     [
                         'id'    => 210201,
                         'title' => '编辑分组',
@@ -747,9 +743,9 @@ return [
                 ],
             ],
         ],
-     ],
+    ],
 
-     //分销管理
+    //分销管理
     'distribution' => [
         'id'    => 70000,
         'title' => '分销管理',
@@ -768,8 +764,8 @@ return [
                 'child' => [
                     [
                         'id'    => 70401,
-                        'title' => '分享平台服务费奖励',
-                        'sort'  => 1,
+                        'title' => '分享平台奖励',
+                        'sort'  => 2,
                         'url'   => 'distribution/distribution_grade',
                         'hide'  => 1,
                     ],
@@ -778,7 +774,7 @@ return [
                         'title' => '购买商品奖励',
                         'sort'  => 2,
                         'url'   => 'distribution/distribution_grade_goods',
-                        'hide'  => 1,
+                        'hide'  => 0,
                     ],
                     [
                         'id'    => 70403,
@@ -997,7 +993,7 @@ return [
                         'url'   => 'member/level_edit',
                         'hide'  => 0,
                     ],
-                   
+
                 ],
             ],
         ],

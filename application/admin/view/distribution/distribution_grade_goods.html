@@ -1,68 +1,69 @@
 {extend name="common:base" /}
 {block name="style"}
 <style type="text/css">
-.table > thead>tr> th{
-   text-align: center;
-}
+    .table>thead>tr>th {
+        text-align: center;
+    }
 </style>
 {/block}
 
 {block name="content"}
 <div class="ibox">
     <div class="ibox-content">
-            <div class="row">
-             
-                </div>
-            </div>
-       </form>
+        <div class="row">
 
-                <div class="ibox-content">
-                    <div class="table-responsive">
-                        <table class="table  table-bordered table-hover text-center">
-                            <thead>
-                                <tr>
-                                    <th>等级ID</th>
-                                    <th>等级名称</th>
-                                    <th>等级比例</th>
-                                    <th>分销条件</th>
-                                    <th>操作</th>
-                                </tr>
-                            </thead> 
-                            <tbody>
-                                {notempty name="list"}
-                                {volist name="list" id="vo"}
-                                <tr>
-                                    <td>{$vo.id}</td>
-                                    <td>{$vo.levelname}</td>
-                                    <td>{$vo.levelratio}</td>
-                                    <td>直推人数{$vo.start_num}到{$vo.start_end}人</td>
-                                    <td>
-                                        <a class='btn btn-default' href="{:url('distribution/distribution_grade_add',['id'=>$vo.id],false)}">编辑</a>
-                                        <!-- <a class='btn btn-default' onclick="del(this,{$vo.id})">删除</a> -->
-                                    </td>
-                                </tr>
-                                {/volist}
-                                {/notempty}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-            </div>
         </div>
     </div>
+    </form>
+
+    <div class="ibox-content">
+        <div class="table-responsive">
+            <table class="table  table-bordered table-hover text-center">
+                <thead>
+                    <tr>
+                        <th>等级ID</th>
+                        <th>等级名称</th>
+                        <th>等级比例</th>
+                        <th>分销条件</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {notempty name="list"}
+                    {volist name="list" id="vo"}
+                    <tr>
+                        <td>{$vo.id}</td>
+                        <td>{$vo.levelname}</td>
+                        <td>{$vo.levelratio}</td>
+                        <td>直推人数{$vo.start_num}到{$vo.start_end}人</td>
+                        <td>
+                            <a class='btn btn-default'
+                                href="{:url('distribution/distribution_grade_add',['id'=>$vo.id],false)}">编辑</a>
+                            <!-- <a class='btn btn-default' onclick="del(this,{$vo.id})">删除</a> -->
+                        </td>
+                    </tr>
+                    {/volist}
+                    {/notempty}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+</div>
+</div>
 </div>
 {/block}
 {block name='script'}
 <script>
-    function del(obj,id){
-        if(window.confirm('确认删除该等级吗？')){
-            $.post("{:url('distribution/distribution_grade_del')}",{'id':id},function(data){
+    function del(obj, id) {
+        if (window.confirm('确认删除该等级吗？')) {
+            $.post("{:url('distribution/distribution_grade_del')}", { 'id': id }, function (data) {
                 alert(data.msg);
-                if(data.code){
+                if (data.code) {
                     $(obj).parents('tr').remove();
                 }
-            },'json');
+            }, 'json');
         }
     }
 
