@@ -4,7 +4,7 @@ namespace app\admin\controller;
 
 
 use app\common\model\Sales;
-use app\common\model\Recommend;
+use app\common\model\Range_same;
 use Payment\Config;
 use think\Loader;
 use think\Request;
@@ -24,8 +24,8 @@ class Index extends Common
         //     'money' => 200,
         // ];
 
-        // $Recommend = new Recommend;
-        // $data = $Recommend->index($data);
+        // $Range_same = new Range_same;
+        // $data = $Range_same->index($data);
         // die;
         $orderNo = 121321;
         $Sales = new Sales(27871, 132123, 0);
