@@ -1,0 +1,78 @@
+{extend name="common:base" /}
+{block name="content"}
+<div class="ibox">
+    <div class="ibox-title">
+        <h5>{$meta_title}</h5>
+    </div>
+    <div class="ibox-content">
+        <form method="post" id="frm" class="form-horizontal" action="">
+            <input type="hidden" name="user_id" value="{$user_id}">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">历史对话</label>
+            </div>
+            <div class="form-group">
+                    <div style="width:500px;height:auto;margin-left:280px;">
+                    {foreach $user_talk as $k=>$v}
+              
+                    {if condition="$v['send_type'] eq 1"}
+                    <div class="col-sm-9">
+                            用户: {$v['content']}
+                    </div>
+                    {else /}
+                    <div class="col-sm-9">
+                            客服:  {$v['content']}
+                    </div>
+                    {/if}
+                    {/foreach}
+                    </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">回复内容</label>
+                <div class="col-sm-9">
+                    <input type="text" name="content" class="form-control">
+                </div>
+            </div>
+                <div class="form-group">
+                    <div class="col-sm-4 col-sm-offset-2">
+                        <button class="btn btn-white" onclick="javascript:history.back(-1);return false;">取消</button>
+                        <button class="btn btn-primary ajax-post" target-form="form-horizontal" id="btn" type="submit">保存</button>
+                    </div>
+                </div>
+        </form>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script>
+$(function() {
+    var id = "{$Think.get.id}";
+    // 图片检测格式
+    $('#pictur_btn').change(function() {
+        if (!this.value) {
+            $("#img_show").attr('src', '');
+            filedata = '';
+            pictur = '';
+            return false;
+        }
+        var file = this.files[0];
+        var ext = file.name.substr(-3, 3);
+        if (ext != 'jpg' && ext != 'gif' && ext != 'png') {
+            layer.msg("文件格式不正确", { icon: 5 });
+            window.location.reload();
+            return false;
+        }
+        if (file.size > 5120000) {
+            layer.msg("该文件太大无法上传", { icon: 5 });
+        } else {
+            var reader = new FileReader();
+            //将文件以Data URL形式读入页面  
+            reader.readAsDataURL(file);
+            reader.onload = function(e) {
+                $('.img-preview').show();
+                $("#img_show").attr('src', this.result);
+            }
+        }
+    });
+});
+</script>
+{/block}

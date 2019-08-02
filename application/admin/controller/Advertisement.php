@@ -65,6 +65,14 @@ class Advertisement extends Common
     
             !$title && $this->error('标题不能为空');
        
+            $res = Advertise::pictureUpload('fixed_picture', 0);
+            if ($res[0] == 1) {
+                $this->error($res[0]);
+            } else {
+                $pictureName  = $res[1];
+                !empty($pictureName) && $data['picture'] = $pictureName;
+            }
+       
         $Info = new Info;
             if ($id) {
                 if ($Info->save($data, ['id' => $id]) !== false) {
@@ -109,6 +117,15 @@ class Advertisement extends Common
             ];
     
             !$title && $this->error('标题不能为空');
+
+               //     // 图片验证
+            $res = Advertise::pictureUpload('fixed_picture', 0);
+            if ($res[0] == 1) {
+                $this->error($res[0]);
+            } else {
+                $pictureName  = $res[1];
+                !empty($pictureName) && $data['picture'] = $pictureName;
+            }
        
         $Announce = new Announce;
             if ($id) {
@@ -175,6 +192,7 @@ class Advertisement extends Common
             !$title && $this->error('标题不能为空');
             !$sort && $this->error('排序不能为空');
             ($sort < 0 || $sort > 10) && $this->error('排序在0和10之间');
+
         //     // 图片验证
             $res = Advertise::pictureUpload('fixed_picture', 0);
             if ($res[0] == 1) {
@@ -183,6 +201,9 @@ class Advertisement extends Common
                 $pictureName  = $res[1];
                 !empty($pictureName) && $data['picture'] = $pictureName;
             }
+
+
+
             if ($id) {
                 $Advertise = new Advertise;
                 if ($Advertise->save($data, ['id' => $id]) !== false) {

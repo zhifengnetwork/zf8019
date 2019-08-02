@@ -27,8 +27,20 @@
                   <script id="editor_param" name="desc" type="text/plain" style="width:100%;height:400px;">{$info.desc|default=''}</script>
                 </div>
             </div>
-
                 <div class="form-group">
+                        <label class="col-sm-2 control-label">图片</label>
+                        <div class="img-preview" style="display:{$info.picture? 'block':'none'};margin-left:-20%">
+                            <img src="{$info.picture|default=''}" id='img_show' style="min-width: 0px !important; min-height: 0px !important; max-width: none !important; max-height: none !important; width: 300px; height: 200px">
+                        </div>
+                       
+                        <div class="form-group" style="margin-left:18%;">
+                            <label title="上传图片" for="pictur_btn" class="btn btn-primary" id="pictur">上传新图像
+                                <input type="file" accept="image/jpg,image/jpeg,image/bmp,image/png,image/gif/*" name="file" id="pictur_btn" class="hide" />
+                            </label>
+                        </div>
+
+
+
                     <label class="col-sm-2 control-label">是否显示</label>
                     <div class="col-sm-9">
                         <div class="radio radio-success radio-inline">

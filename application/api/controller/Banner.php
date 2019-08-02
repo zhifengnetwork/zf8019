@@ -28,7 +28,7 @@ class Banner extends ApiAbstract
     
     public function announce()
     {
-        $announce=Db::name('announce')->field('id,title,urllink as link,desc')->where(['status'=>1])->order('create_time','desc')->limit(3)->select();
+        $announce=Db::name('announce')->field('id,title,urllink as link,desc,picture')->where(['status'=>1])->order('create_time','desc')->limit(3)->select();
         if($announce){
             return $this->successResult($announce);
         }else{
@@ -36,6 +36,20 @@ class Banner extends ApiAbstract
         }    
     }
 
+
+
+    public function info_detail(){
+        $id=input('id');
+        if($id){
+            $info_detail=Db::name('info')->where(['id'=>$id])->find();  
+            $info_detail['create_time']=date('Y-m-d',$info_detail['create_time']);
+            if($info_detail){
+                $this->successResult($info_detail);
+            }else{
+                $this->failResult("获取资讯数据失败");
+            }
+        }
+    }
 
 
     public function getAllData ($only_logo,$type=0){
