@@ -2835,6 +2835,13 @@ class User extends ApiBase
         return $this->successResult($announce);
     }
 
+    //用户协议
+    public function consult()
+    {
+        $site=Db::name('site')->find();
+        return $this->successResult($site['consult']);
+    }
+
 
 
 }
