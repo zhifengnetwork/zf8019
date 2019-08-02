@@ -1010,6 +1010,42 @@ use think\Db;
 use think\Cache;
 use think\Loader;
 
+
+
+//获取所有直属上级ID
+function first_leader_ids($user_id, &$userList = array())
+{
+
+    $first_leader = Db::name('member')->field('id,first_leader')->where(['id' => $user_id])->value('first_leader');
+    // $UpInfo = M('users')->field($field)->where(['user_id' => $first_leader])->find();
+    if ($first_leader <= 0) {
+        return true;
+    }
+    $userList[] = $first_leader;
+    first_leader_ids($first_leader, $userList);
+    return $userList;
+}
+
+
+
+//获取所有直属上级
+
+function card_num($user_id, $has_num, $now_num = 0)
+{
+
+    $first_leader = Db::name('member')->where(['first_leader' => $user_id])->value('id');
+
+    $level_num = Db::name('vip_member_card')->where('user_id', $first_leader)->field('SUM(level_num) as level_num')->find();
+
+    $now_num = $level_num['level_num'] + $now_num;
+
+    if ($now_num >= $has_num || $first_leader == 0) {
+        return $now_num;
+    }
+
+    card_num($first_leader, $has_num, $now_num);
+}
+
 /**
  * 记录帐户变动
  * @param   int $user_id 用户id
@@ -1168,6 +1204,18 @@ function checkMobile($mobilePhone)
     }
 }
 
+<<<<<<< HEAD
+function send_zhangjun($mobile, $code)
+{ //掌骏
+
+    $content = "【8019】您的手机验证码为：" . $code . "，该短信1分钟内有效。如非本人操作，可不用理会！";
+    $time = date('ymdhis', time());
+    //    $arr=array('uname'=>"hsxx40",'pwd'=>"hsxx40",'time'=>$time);
+    $arr = array('uname' => "qx3983", 'pwd' => "20190716", 'time' => $time);
+    $signPars = '';
+    foreach ($arr as $v) {
+        $signPars .= $v;
+=======
 function send_zhangjun($mobile,$code){//掌骏
     
     $content = "【8019】您的手机验证码为：".$code."，该短信1分钟内有效。如非本人操作，可不用理会！";
@@ -1177,6 +1225,7 @@ function send_zhangjun($mobile,$code){//掌骏
     $signPars='';
     foreach($arr as $v) {
         $signPars .=$v;
+>>>>>>> 55a4ff04e4079b79c0a70a990f009c3b0030768f
     }
     $sign = strtolower(md5($signPars));
     //    $arrs=array('userid'=>"9795",'timestamp'=>$time,'sign'=>$sign,'mobile'=>$mobile,'content'=>$content,'action'=>'send');
@@ -1960,6 +2009,19 @@ function uploadTou($image)
     }
 }
 
+
+/**
+ * 手机号码中间加星
+ * @param int $tel
+ * @return string
+ */
+function doPhone($tel){
+     $new_tel = preg_replace('/(\d{3})\d{4}(\d{4})/', '$1****$2', $tel);  
+    return $new_tel;
+}
+
+
+
 /**
  * 商品属性组合
  * @param $arrs 二维数组
@@ -2007,4 +2069,8 @@ function getArrSet($arrs, $_current_index = -1)
     }
     return $_total_arr;
 }
+<<<<<<< HEAD
 >>>>>>> c1446b9be28730199ca3d25044c416f5ac13bf29
+=======
+
+>>>>>>> f377d99b55fa752952b0dcb0ec019888e7c51a99

@@ -4928,3 +4928,921 @@ app\common\model\Member::__set_state(array(
    'relationWrite' => NULL,
 ))
 ----------------------------------------------------------------------------------------------------
+time:2019-07-31 23:19:40 0.22531900 1564586380
+app\common\model\Member::__set_state(array(
+   'updateTime' => false,
+   'autoWriteTimestamp' => true,
+   'connection' => 
+  array (
+  ),
+   'parent' => NULL,
+   'query' => NULL,
+   'name' => 'Member',
+   'table' => NULL,
+   'class' => 'app\\common\\model\\Member',
+   'error' => NULL,
+   'validate' => NULL,
+   'pk' => NULL,
+   'field' => 
+  array (
+  ),
+   'except' => 
+  array (
+  ),
+   'disuse' => 
+  array (
+  ),
+   'readonly' => 
+  array (
+  ),
+   'visible' => 
+  array (
+  ),
+   'hidden' => 
+  array (
+  ),
+   'append' => 
+  array (
+  ),
+   'data' => 
+  array (
+    'id' => 27870,
+    'is_release' => 1,
+    'is_vip' => 1,
+    'if_buy_fifty' => 1,
+    'release' => 8,
+    'residue_release' => 0,
+    'release_ci' => 1,
+    'release_time' => 1564070400,
+    'level' => 0,
+    'realname' => '默认昵称',
+    'mobile' => '15181112455',
+    'address' => NULL,
+    'pwd' => '1a3afc0c6a367bd4c8a0830f7638ae19',
+    'openid' => '',
+    'password' => '1a3afc0c6a367bd4c8a0830f7638ae19',
+    'distribut_money' => '36.00000000',
+    'remainder_money' => '36.00000000',
+    'third_leader' => 0,
+    'first_leader' => 0,
+    'second_leader' => 0,
+    'salt' => '3f35b9',
+    'createtime' => 1563792899,
+    'status' => 1,
+    'birthyear' => '',
+    'birthmonth' => '',
+    'birthday' => '',
+    'gender' => 0,
+    'avatar' => 'http://newretailwebtest.zhifengwangluo.com/static/images/headimg/20190711156280864771502.png',
+    'province' => '',
+    'city' => '',
+    'area' => '',
+    'alipay' => NULL,
+    'bank_card' => NULL,
+    'bank_name' => NULL,
+    'mailbox' => '',
+    'alipay_name' => '',
+    'pay_points' => 0,
+    'parents_cache' => 0,
+    'is_cash' => 1,
+    'groupid' => NULL,
+  ),
+   'origin' => 
+  array (
+    'id' => 27870,
+    'is_release' => 1,
+    'is_vip' => 1,
+    'if_buy_fifty' => 1,
+    'release' => 8,
+    'residue_release' => 0,
+    'release_ci' => 1,
+    'release_time' => 1564070400,
+    'level' => 0,
+    'realname' => '默认昵称',
+    'mobile' => '15181112455',
+    'address' => NULL,
+    'pwd' => '1a3afc0c6a367bd4c8a0830f7638ae19',
+    'openid' => '',
+    'password' => '1a3afc0c6a367bd4c8a0830f7638ae19',
+    'distribut_money' => '36.00000000',
+    'remainder_money' => '36.00000000',
+    'third_leader' => 0,
+    'first_leader' => 0,
+    'second_leader' => 0,
+    'salt' => '3f35b9',
+    'createtime' => 1563792899,
+    'status' => 1,
+    'birthyear' => '',
+    'birthmonth' => '',
+    'birthday' => '',
+    'gender' => 0,
+    'avatar' => 'http://newretailwebtest.zhifengwangluo.com/static/images/headimg/20190711156280864771502.png',
+    'province' => '',
+    'city' => '',
+    'area' => '',
+    'alipay' => NULL,
+    'bank_card' => NULL,
+    'bank_name' => NULL,
+    'mailbox' => '',
+    'alipay_name' => '',
+    'pay_points' => 0,
+    'parents_cache' => 0,
+    'is_cash' => 1,
+    'groupid' => NULL,
+  ),
+   'relation' => 
+  array (
+  ),
+   'auto' => 
+  array (
+  ),
+   'insert' => 
+  array (
+  ),
+   'update' => 
+  array (
+  ),
+   'createTime' => 'create_time',
+   'dateFormat' => 'Y-m-d H:i:s',
+   'type' => 
+  array (
+  ),
+   'isUpdate' => true,
+   'replace' => false,
+   'force' => false,
+   'updateWhere' => 
+  array (
+    'id' => 27870,
+  ),
+   'failException' => false,
+   'useGlobalScope' => true,
+   'batchValidate' => false,
+   'resultSetType' => 'array',
+   'relationWrite' => NULL,
+))
+----------------------------------------------------------------------------------------------------
+time:2019-07-31 23:21:55 0.06664600 1564586515
+app\common\model\Member::__set_state(array(
+   'updateTime' => false,
+   'autoWriteTimestamp' => true,
+   'connection' => 
+  array (
+  ),
+   'parent' => NULL,
+   'query' => NULL,
+   'name' => 'Member',
+   'table' => NULL,
+   'class' => 'app\\common\\model\\Member',
+   'error' => NULL,
+   'validate' => NULL,
+   'pk' => NULL,
+   'field' => 
+  array (
+  ),
+   'except' => 
+  array (
+  ),
+   'disuse' => 
+  array (
+  ),
+   'readonly' => 
+  array (
+  ),
+   'visible' => 
+  array (
+  ),
+   'hidden' => 
+  array (
+  ),
+   'append' => 
+  array (
+  ),
+   'data' => 
+  array (
+    'id' => 27870,
+    'is_release' => 1,
+    'is_vip' => 1,
+    'if_buy_fifty' => 1,
+    'release' => 8,
+    'residue_release' => 0,
+    'release_ci' => 1,
+    'release_time' => 1564070400,
+    'level' => 0,
+    'realname' => '默认昵称',
+    'mobile' => '15181112455',
+    'address' => NULL,
+    'pwd' => '1a3afc0c6a367bd4c8a0830f7638ae19',
+    'openid' => '',
+    'password' => '1a3afc0c6a367bd4c8a0830f7638ae19',
+    'distribut_money' => '42.00000000',
+    'remainder_money' => '42.00000000',
+    'third_leader' => 0,
+    'first_leader' => 0,
+    'second_leader' => 0,
+    'salt' => '3f35b9',
+    'createtime' => 1563792899,
+    'status' => 1,
+    'birthyear' => '',
+    'birthmonth' => '',
+    'birthday' => '',
+    'gender' => 0,
+    'avatar' => 'http://newretailwebtest.zhifengwangluo.com/static/images/headimg/20190711156280864771502.png',
+    'province' => '',
+    'city' => '',
+    'area' => '',
+    'alipay' => NULL,
+    'bank_card' => NULL,
+    'bank_name' => NULL,
+    'mailbox' => '',
+    'alipay_name' => '',
+    'pay_points' => 0,
+    'parents_cache' => 0,
+    'is_cash' => 1,
+    'groupid' => NULL,
+  ),
+   'origin' => 
+  array (
+    'id' => 27870,
+    'is_release' => 1,
+    'is_vip' => 1,
+    'if_buy_fifty' => 1,
+    'release' => 8,
+    'residue_release' => 0,
+    'release_ci' => 1,
+    'release_time' => 1564070400,
+    'level' => 0,
+    'realname' => '默认昵称',
+    'mobile' => '15181112455',
+    'address' => NULL,
+    'pwd' => '1a3afc0c6a367bd4c8a0830f7638ae19',
+    'openid' => '',
+    'password' => '1a3afc0c6a367bd4c8a0830f7638ae19',
+    'distribut_money' => '42.00000000',
+    'remainder_money' => '42.00000000',
+    'third_leader' => 0,
+    'first_leader' => 0,
+    'second_leader' => 0,
+    'salt' => '3f35b9',
+    'createtime' => 1563792899,
+    'status' => 1,
+    'birthyear' => '',
+    'birthmonth' => '',
+    'birthday' => '',
+    'gender' => 0,
+    'avatar' => 'http://newretailwebtest.zhifengwangluo.com/static/images/headimg/20190711156280864771502.png',
+    'province' => '',
+    'city' => '',
+    'area' => '',
+    'alipay' => NULL,
+    'bank_card' => NULL,
+    'bank_name' => NULL,
+    'mailbox' => '',
+    'alipay_name' => '',
+    'pay_points' => 0,
+    'parents_cache' => 0,
+    'is_cash' => 1,
+    'groupid' => NULL,
+  ),
+   'relation' => 
+  array (
+  ),
+   'auto' => 
+  array (
+  ),
+   'insert' => 
+  array (
+  ),
+   'update' => 
+  array (
+  ),
+   'createTime' => 'create_time',
+   'dateFormat' => 'Y-m-d H:i:s',
+   'type' => 
+  array (
+  ),
+   'isUpdate' => true,
+   'replace' => false,
+   'force' => false,
+   'updateWhere' => 
+  array (
+    'id' => 27870,
+  ),
+   'failException' => false,
+   'useGlobalScope' => true,
+   'batchValidate' => false,
+   'resultSetType' => 'array',
+   'relationWrite' => NULL,
+))
+----------------------------------------------------------------------------------------------------
+time:2019-07-31 23:21:58 0.95025100 1564586518
+app\common\model\Member::__set_state(array(
+   'updateTime' => false,
+   'autoWriteTimestamp' => true,
+   'connection' => 
+  array (
+  ),
+   'parent' => NULL,
+   'query' => NULL,
+   'name' => 'Member',
+   'table' => NULL,
+   'class' => 'app\\common\\model\\Member',
+   'error' => NULL,
+   'validate' => NULL,
+   'pk' => NULL,
+   'field' => 
+  array (
+  ),
+   'except' => 
+  array (
+  ),
+   'disuse' => 
+  array (
+  ),
+   'readonly' => 
+  array (
+  ),
+   'visible' => 
+  array (
+  ),
+   'hidden' => 
+  array (
+  ),
+   'append' => 
+  array (
+  ),
+   'data' => 
+  array (
+    'id' => 27870,
+    'is_release' => 1,
+    'is_vip' => 1,
+    'if_buy_fifty' => 1,
+    'release' => 8,
+    'residue_release' => 0,
+    'release_ci' => 1,
+    'release_time' => 1564070400,
+    'level' => 0,
+    'realname' => '默认昵称',
+    'mobile' => '15181112455',
+    'address' => NULL,
+    'pwd' => '1a3afc0c6a367bd4c8a0830f7638ae19',
+    'openid' => '',
+    'password' => '1a3afc0c6a367bd4c8a0830f7638ae19',
+    'distribut_money' => '48.00000000',
+    'remainder_money' => '48.00000000',
+    'third_leader' => 0,
+    'first_leader' => 0,
+    'second_leader' => 0,
+    'salt' => '3f35b9',
+    'createtime' => 1563792899,
+    'status' => 1,
+    'birthyear' => '',
+    'birthmonth' => '',
+    'birthday' => '',
+    'gender' => 0,
+    'avatar' => 'http://newretailwebtest.zhifengwangluo.com/static/images/headimg/20190711156280864771502.png',
+    'province' => '',
+    'city' => '',
+    'area' => '',
+    'alipay' => NULL,
+    'bank_card' => NULL,
+    'bank_name' => NULL,
+    'mailbox' => '',
+    'alipay_name' => '',
+    'pay_points' => 0,
+    'parents_cache' => 0,
+    'is_cash' => 1,
+    'groupid' => NULL,
+  ),
+   'origin' => 
+  array (
+    'id' => 27870,
+    'is_release' => 1,
+    'is_vip' => 1,
+    'if_buy_fifty' => 1,
+    'release' => 8,
+    'residue_release' => 0,
+    'release_ci' => 1,
+    'release_time' => 1564070400,
+    'level' => 0,
+    'realname' => '默认昵称',
+    'mobile' => '15181112455',
+    'address' => NULL,
+    'pwd' => '1a3afc0c6a367bd4c8a0830f7638ae19',
+    'openid' => '',
+    'password' => '1a3afc0c6a367bd4c8a0830f7638ae19',
+    'distribut_money' => '48.00000000',
+    'remainder_money' => '48.00000000',
+    'third_leader' => 0,
+    'first_leader' => 0,
+    'second_leader' => 0,
+    'salt' => '3f35b9',
+    'createtime' => 1563792899,
+    'status' => 1,
+    'birthyear' => '',
+    'birthmonth' => '',
+    'birthday' => '',
+    'gender' => 0,
+    'avatar' => 'http://newretailwebtest.zhifengwangluo.com/static/images/headimg/20190711156280864771502.png',
+    'province' => '',
+    'city' => '',
+    'area' => '',
+    'alipay' => NULL,
+    'bank_card' => NULL,
+    'bank_name' => NULL,
+    'mailbox' => '',
+    'alipay_name' => '',
+    'pay_points' => 0,
+    'parents_cache' => 0,
+    'is_cash' => 1,
+    'groupid' => NULL,
+  ),
+   'relation' => 
+  array (
+  ),
+   'auto' => 
+  array (
+  ),
+   'insert' => 
+  array (
+  ),
+   'update' => 
+  array (
+  ),
+   'createTime' => 'create_time',
+   'dateFormat' => 'Y-m-d H:i:s',
+   'type' => 
+  array (
+  ),
+   'isUpdate' => true,
+   'replace' => false,
+   'force' => false,
+   'updateWhere' => 
+  array (
+    'id' => 27870,
+  ),
+   'failException' => false,
+   'useGlobalScope' => true,
+   'batchValidate' => false,
+   'resultSetType' => 'array',
+   'relationWrite' => NULL,
+))
+----------------------------------------------------------------------------------------------------
+time:2019-08-02 22:21:29 0.25475800 1564755689
+app\common\model\Member::__set_state(array(
+   'updateTime' => false,
+   'autoWriteTimestamp' => true,
+   'connection' => 
+  array (
+  ),
+   'parent' => NULL,
+   'query' => NULL,
+   'name' => 'Member',
+   'table' => NULL,
+   'class' => 'app\\common\\model\\Member',
+   'error' => NULL,
+   'validate' => NULL,
+   'pk' => NULL,
+   'field' => 
+  array (
+  ),
+   'except' => 
+  array (
+  ),
+   'disuse' => 
+  array (
+  ),
+   'readonly' => 
+  array (
+  ),
+   'visible' => 
+  array (
+  ),
+   'hidden' => 
+  array (
+  ),
+   'append' => 
+  array (
+  ),
+   'data' => 
+  array (
+    'id' => 27872,
+    'is_release' => 0,
+    'is_vip' => 0,
+    'if_buy_fifty' => 0,
+    'release' => 1,
+    'residue_release' => 0,
+    'release_ci' => 0,
+    'release_time' => 0,
+    'level' => 3,
+    'realname' => '默认昵称',
+    'mobile' => '13763004669',
+    'address' => NULL,
+    'pwd' => 'e5b01e8e508ccc2dcf01b7cf3755cb87',
+    'openid' => '',
+    'password' => 'e5b01e8e508ccc2dcf01b7cf3755cb87',
+    'distribut_money' => '2.16000000',
+    'remainder_money' => '2.16000000',
+    'third_leader' => 0,
+    'first_leader' => 27873,
+    'second_leader' => 27870,
+    'salt' => '26d9e1',
+    'createtime' => 1563793058,
+    'status' => 1,
+    'birthyear' => '',
+    'birthmonth' => '',
+    'birthday' => '',
+    'gender' => 0,
+    'avatar' => 'http://newretailwebtest.zhifengwangluo.com/static/images/headimg/20190711156280864771502.png',
+    'province' => '',
+    'city' => '',
+    'area' => '',
+    'alipay' => NULL,
+    'bank_card' => NULL,
+    'bank_name' => NULL,
+    'mailbox' => '',
+    'alipay_name' => '',
+    'pay_points' => 0,
+    'parents_cache' => 1,
+    'is_cash' => 1,
+    'groupid' => NULL,
+  ),
+   'origin' => 
+  array (
+    'id' => 27872,
+    'is_release' => 0,
+    'is_vip' => 0,
+    'if_buy_fifty' => 0,
+    'release' => 1,
+    'residue_release' => 0,
+    'release_ci' => 0,
+    'release_time' => 0,
+    'level' => 3,
+    'realname' => '默认昵称',
+    'mobile' => '13763004669',
+    'address' => NULL,
+    'pwd' => 'e5b01e8e508ccc2dcf01b7cf3755cb87',
+    'openid' => '',
+    'password' => 'e5b01e8e508ccc2dcf01b7cf3755cb87',
+    'distribut_money' => '2.16000000',
+    'remainder_money' => '2.16000000',
+    'third_leader' => 0,
+    'first_leader' => 27873,
+    'second_leader' => 27870,
+    'salt' => '26d9e1',
+    'createtime' => 1563793058,
+    'status' => 1,
+    'birthyear' => '',
+    'birthmonth' => '',
+    'birthday' => '',
+    'gender' => 0,
+    'avatar' => 'http://newretailwebtest.zhifengwangluo.com/static/images/headimg/20190711156280864771502.png',
+    'province' => '',
+    'city' => '',
+    'area' => '',
+    'alipay' => NULL,
+    'bank_card' => NULL,
+    'bank_name' => NULL,
+    'mailbox' => '',
+    'alipay_name' => '',
+    'pay_points' => 0,
+    'parents_cache' => 1,
+    'is_cash' => 1,
+    'groupid' => NULL,
+  ),
+   'relation' => 
+  array (
+  ),
+   'auto' => 
+  array (
+  ),
+   'insert' => 
+  array (
+  ),
+   'update' => 
+  array (
+  ),
+   'createTime' => 'create_time',
+   'dateFormat' => 'Y-m-d H:i:s',
+   'type' => 
+  array (
+  ),
+   'isUpdate' => true,
+   'replace' => false,
+   'force' => false,
+   'updateWhere' => 
+  array (
+    'id' => 27872,
+  ),
+   'failException' => false,
+   'useGlobalScope' => true,
+   'batchValidate' => false,
+   'resultSetType' => 'array',
+   'relationWrite' => NULL,
+))
+----------------------------------------------------------------------------------------------------
+time:2019-08-02 22:21:29 0.30060300 1564755689
+app\common\model\Member::__set_state(array(
+   'updateTime' => false,
+   'autoWriteTimestamp' => true,
+   'connection' => 
+  array (
+  ),
+   'parent' => NULL,
+   'query' => NULL,
+   'name' => 'Member',
+   'table' => NULL,
+   'class' => 'app\\common\\model\\Member',
+   'error' => NULL,
+   'validate' => NULL,
+   'pk' => NULL,
+   'field' => 
+  array (
+  ),
+   'except' => 
+  array (
+  ),
+   'disuse' => 
+  array (
+  ),
+   'readonly' => 
+  array (
+  ),
+   'visible' => 
+  array (
+  ),
+   'hidden' => 
+  array (
+  ),
+   'append' => 
+  array (
+  ),
+   'data' => 
+  array (
+    'id' => 27873,
+    'is_release' => 1,
+    'is_vip' => 0,
+    'if_buy_fifty' => 1,
+    'release' => 1,
+    'residue_release' => 0,
+    'release_ci' => 0,
+    'release_time' => 0,
+    'level' => 3,
+    'realname' => '默认昵称',
+    'mobile' => '18688677754',
+    'address' => NULL,
+    'pwd' => '630ed6eff8085e97e852cddba5142688',
+    'openid' => '',
+    'password' => '630ed6eff8085e97e852cddba5142688',
+    'distribut_money' => '2.16000000',
+    'remainder_money' => '2.16000000',
+    'third_leader' => 27870,
+    'first_leader' => 27874,
+    'second_leader' => 27871,
+    'salt' => '8718eb',
+    'createtime' => 1563793112,
+    'status' => 1,
+    'birthyear' => '',
+    'birthmonth' => '',
+    'birthday' => '',
+    'gender' => 0,
+    'avatar' => 'http://newretailwebtest.zhifengwangluo.com/static/images/headimg/20190711156280864771502.png',
+    'province' => '',
+    'city' => '',
+    'area' => '',
+    'alipay' => NULL,
+    'bank_card' => NULL,
+    'bank_name' => NULL,
+    'mailbox' => '',
+    'alipay_name' => '',
+    'pay_points' => 0,
+    'parents_cache' => 1,
+    'is_cash' => 0,
+    'groupid' => NULL,
+  ),
+   'origin' => 
+  array (
+    'id' => 27873,
+    'is_release' => 1,
+    'is_vip' => 0,
+    'if_buy_fifty' => 1,
+    'release' => 1,
+    'residue_release' => 0,
+    'release_ci' => 0,
+    'release_time' => 0,
+    'level' => 3,
+    'realname' => '默认昵称',
+    'mobile' => '18688677754',
+    'address' => NULL,
+    'pwd' => '630ed6eff8085e97e852cddba5142688',
+    'openid' => '',
+    'password' => '630ed6eff8085e97e852cddba5142688',
+    'distribut_money' => '2.16000000',
+    'remainder_money' => '2.16000000',
+    'third_leader' => 27870,
+    'first_leader' => 27874,
+    'second_leader' => 27871,
+    'salt' => '8718eb',
+    'createtime' => 1563793112,
+    'status' => 1,
+    'birthyear' => '',
+    'birthmonth' => '',
+    'birthday' => '',
+    'gender' => 0,
+    'avatar' => 'http://newretailwebtest.zhifengwangluo.com/static/images/headimg/20190711156280864771502.png',
+    'province' => '',
+    'city' => '',
+    'area' => '',
+    'alipay' => NULL,
+    'bank_card' => NULL,
+    'bank_name' => NULL,
+    'mailbox' => '',
+    'alipay_name' => '',
+    'pay_points' => 0,
+    'parents_cache' => 1,
+    'is_cash' => 0,
+    'groupid' => NULL,
+  ),
+   'relation' => 
+  array (
+  ),
+   'auto' => 
+  array (
+  ),
+   'insert' => 
+  array (
+  ),
+   'update' => 
+  array (
+  ),
+   'createTime' => 'create_time',
+   'dateFormat' => 'Y-m-d H:i:s',
+   'type' => 
+  array (
+  ),
+   'isUpdate' => true,
+   'replace' => false,
+   'force' => false,
+   'updateWhere' => 
+  array (
+    'id' => 27873,
+  ),
+   'failException' => false,
+   'useGlobalScope' => true,
+   'batchValidate' => false,
+   'resultSetType' => 'array',
+   'relationWrite' => NULL,
+))
+----------------------------------------------------------------------------------------------------
+time:2019-08-02 22:21:29 0.34347300 1564755689
+app\common\model\Member::__set_state(array(
+   'updateTime' => false,
+   'autoWriteTimestamp' => true,
+   'connection' => 
+  array (
+  ),
+   'parent' => NULL,
+   'query' => NULL,
+   'name' => 'Member',
+   'table' => NULL,
+   'class' => 'app\\common\\model\\Member',
+   'error' => NULL,
+   'validate' => NULL,
+   'pk' => NULL,
+   'field' => 
+  array (
+  ),
+   'except' => 
+  array (
+  ),
+   'disuse' => 
+  array (
+  ),
+   'readonly' => 
+  array (
+  ),
+   'visible' => 
+  array (
+  ),
+   'hidden' => 
+  array (
+  ),
+   'append' => 
+  array (
+  ),
+   'data' => 
+  array (
+    'id' => 27874,
+    'is_release' => 0,
+    'is_vip' => 0,
+    'if_buy_fifty' => 0,
+    'release' => 1,
+    'residue_release' => 0,
+    'release_ci' => 0,
+    'release_time' => 0,
+    'level' => 3,
+    'realname' => '默认昵称',
+    'mobile' => '18665679407',
+    'address' => NULL,
+    'pwd' => NULL,
+    'openid' => '',
+    'password' => '190c102c21be8582a60336cc3053fe48',
+    'distribut_money' => '0.00000000',
+    'remainder_money' => '0.00000000',
+    'third_leader' => 0,
+    'first_leader' => 27875,
+    'second_leader' => 0,
+    'salt' => '75357c',
+    'createtime' => 1563844807,
+    'status' => 1,
+    'birthyear' => '',
+    'birthmonth' => '',
+    'birthday' => '',
+    'gender' => 0,
+    'avatar' => 'http://newretailwebtest.zhifengwangluo.com/static/images/headimg/20190711156280864771502.png',
+    'province' => '',
+    'city' => '',
+    'area' => '',
+    'alipay' => NULL,
+    'bank_card' => NULL,
+    'bank_name' => NULL,
+    'mailbox' => '',
+    'alipay_name' => '',
+    'pay_points' => 0,
+    'parents_cache' => 1,
+    'is_cash' => 0,
+    'groupid' => NULL,
+  ),
+   'origin' => 
+  array (
+    'id' => 27874,
+    'is_release' => 0,
+    'is_vip' => 0,
+    'if_buy_fifty' => 0,
+    'release' => 1,
+    'residue_release' => 0,
+    'release_ci' => 0,
+    'release_time' => 0,
+    'level' => 3,
+    'realname' => '默认昵称',
+    'mobile' => '18665679407',
+    'address' => NULL,
+    'pwd' => NULL,
+    'openid' => '',
+    'password' => '190c102c21be8582a60336cc3053fe48',
+    'distribut_money' => '0.00000000',
+    'remainder_money' => '0.00000000',
+    'third_leader' => 0,
+    'first_leader' => 27875,
+    'second_leader' => 0,
+    'salt' => '75357c',
+    'createtime' => 1563844807,
+    'status' => 1,
+    'birthyear' => '',
+    'birthmonth' => '',
+    'birthday' => '',
+    'gender' => 0,
+    'avatar' => 'http://newretailwebtest.zhifengwangluo.com/static/images/headimg/20190711156280864771502.png',
+    'province' => '',
+    'city' => '',
+    'area' => '',
+    'alipay' => NULL,
+    'bank_card' => NULL,
+    'bank_name' => NULL,
+    'mailbox' => '',
+    'alipay_name' => '',
+    'pay_points' => 0,
+    'parents_cache' => 1,
+    'is_cash' => 0,
+    'groupid' => NULL,
+  ),
+   'relation' => 
+  array (
+  ),
+   'auto' => 
+  array (
+  ),
+   'insert' => 
+  array (
+  ),
+   'update' => 
+  array (
+  ),
+   'createTime' => 'create_time',
+   'dateFormat' => 'Y-m-d H:i:s',
+   'type' => 
+  array (
+  ),
+   'isUpdate' => true,
+   'replace' => false,
+   'force' => false,
+   'updateWhere' => 
+  array (
+    'id' => 27874,
+  ),
+   'failException' => false,
+   'useGlobalScope' => true,
+   'batchValidate' => false,
+   'resultSetType' => 'array',
+   'relationWrite' => NULL,
+))
+----------------------------------------------------------------------------------------------------

@@ -1,0 +1,83 @@
+{extend name="common:base" /}
+{block name="style"}
+<style type="text/css">
+.table>thead>tr>th {
+    text-align: center;
+}
+</style>
+{/block}
+{block name="content"}
+<div class="ibox-title">
+    <div class="row ">
+        <div class="col-lg-12">
+            <h3  class="col-lg-4" >{$meta_title}</h3>
+            <div class="pull-right">
+                <a class="btn btn-info" href="{:url('advertisement/page_edit')}"><i class="fa fa-plus"></i> 添加页面</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="ibox-content">
+    <div class="table-responsive">
+        <table class="table  table-bordered table-hover text-center">
+            <thead>
+                <tr>
+                    <th>用户id</th>
+                    <th>用户名称</th>
+                    <th>信息内容</th>
+                    <th>时间</th>
+                    <th>状态</th>
+                </tr>
+            </thead>
+            <tbody>
+         
+            {volist name="list" id="vo"}
+            <tr>
+                <td>{$vo.user_id}</td>
+                <td>{$vo.send_name}</td>
+                <td>{$vo.content}</td>
+                <td>{$vo.create_time|date="Y-m-d h:i:s",###}</td>
+                <td>
+                    <a class="btn btn-default" href="{:url('customer/service',['id'=>$vo['user_id']])}"><i class="fa fa-edit"></i> 回复</a>
+                    <a class="btn btn-default" href="{:url('customer/service',['id'=>$vo['user_id']])}"><i class="fa fa-edit"></i> 查看</a>
+                    <!-- <a class="btn btn-default" onclick="del(this,{$vo['id']},-1)" href="javascript:;">
+                        <i class="fa fa-trash-o"></i>
+                        删除
+                    </a> -->
+                </td>
+            </tr>
+            {/volist}
+    
+            </tbody>
+        </table>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script>
+function update(obj,id,status){
+    console.log(status,id);
+    if(window.confirm('确认修改该页面状态吗？')){
+        $.post("{:url('Advertisement/page_status')}",{'id':id,'status':status},function(data){
+            console.log(data)
+            alert(data.msg);
+            if(data.code==1){
+                window.location.reload();
+            }
+        },'json');
+    }
+}
+
+function del(obj,id,status){
+    if(window.confirm('确认删除该页面吗？')){
+        $.post("{:url('Advertisement/page_status')}",{'id':id,'status':status},function(data){
+            console.log(data)
+            alert(data.msg);
+            if(data.code==1){
+                $(obj).parents('tr').remove();
+            }
+        },'json');
+    }
+}
+</script>
+{/block}
