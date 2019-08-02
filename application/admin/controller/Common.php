@@ -40,6 +40,7 @@ class Common extends Controller
         $this->auth();
         $this->view->mginfo     = $this->mginfo    = session('admin_user_auth');
         $leftmenu =  self::get_leftmenu();
+
         $this->view->lefts_menu  = self::lefts_menu($leftmenu);
         $this->view->left_menu   = $leftmenu;
         // var_dump(self::lefts_menu($leftmenu)[0]['_child']);
@@ -72,6 +73,8 @@ class Common extends Controller
             // $where['hide']   = 1;
             $all_menu        = Db::table('menu')->where($where)->order('sort ASC')->field("id,title,pid,url,hide,tip,group,sort,icon")->select();
         }
+
+        // var_dump($all_menu);die;
         Session::set('all_menu', $all_menu);
        
         //权限判断

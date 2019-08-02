@@ -179,6 +179,13 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-sm-2 control-label">用户协议</label>
+                            <div class="col-sm-9">
+                                <script id="consult_editor" name="consult" type="text/plain" style="width:100%;height:400px;">{$info.consult}</script> 
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-sm-2 control-label">网站页脚</label>
                             <div class="col-sm-9">
                                 <script id="editor" name="copyright" type="text/plain" style="width:100%;height:400px;">{$info.copyright}</script> 
@@ -280,6 +287,18 @@
 
     //实例化富文本编辑器
     var ue = UE.getEditor('editor',{
+        initialFrameWidth:650,
+        initialFrameHeight:180,
+        toolbars: [[
+            'fullscreen', 'source', '|', 'undo', 'redo', '|', 'searchreplace' ,
+            'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch','pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
+            'rowspacingtop', 'rowspacingbottom', 'lineheight', 'paragraph', 'fontfamily', 'fontsize', 'indent', '|',
+            'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
+            'link', 'unlink', 'insertimage', 'insertvideo', 'music', 'attachment', 'map', 'gmap',
+        ]]
+    });
+    //实例化富文本编辑器
+    var ue = UE.getEditor('consult_editor',{
         initialFrameWidth:650,
         initialFrameHeight:180,
         toolbars: [[

@@ -87,6 +87,13 @@ return [
                         'url'   => 'advertisement/announce',
                         'hide'  => 1,
                     ],
+                    [
+                        'id'    => 210303,
+                        'title' => '资讯列表',
+                        'sort'  => 1,
+                        'url'   => 'advertisement/info',
+                        'hide'  => 1,
+                    ],
                 ],
             ],
             [
@@ -994,6 +1001,30 @@ return [
                         'hide'  => 0,
                     ],
 
+                ],
+            ],
+            [
+                'id'    => 90100,
+                'title' => '留言管理',
+                'sort'  => 1,
+                'url'   => '',
+                'hide'  => 1,
+                'icon'  => 'fa-th-large',
+                'child' => [
+                    [
+                        'id'    => 90101,
+                        'title' => '会员留言',
+                        'sort'  => 1,
+                        'url'   => 'customer/index',
+                        'hide'  => 1,
+                    ],
+                    [
+                        'id'    => 90101,
+                        'title' => '回复留言',
+                        'sort'  => 1,
+                        'url'   => 'customer/service',
+                        'hide'  => 1,
+                    ],
                 ],
             ],
         ],

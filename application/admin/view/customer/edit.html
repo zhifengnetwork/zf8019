@@ -7,49 +7,57 @@
     <div class="ibox-content">
         <form method="post" id="frm" class="form-horizontal" action="">
             <input type="hidden" name="id" value="{$id}">
+            <input type="hidden" name="page_id" value="{$page_id}">
             <div class="form-group">
                 <label class="col-sm-2 control-label">标题</label>
                 <div class="col-sm-9">
                     <input type="text" name="title" value="{$info.title|default=''}" class="form-control">
                 </div>
             </div>
-          
+            <div class="form-group">
+                <label class="col-sm-2 control-label">排序</label>
+                <div class="col-sm-9">
+                    <input type="text" name="sort" value="{$info.sort|default=''}" class="form-control">
+                    <p style="color:red">* 0 - 10 , 客户端显示从小到大。</p>
+                </div>
+            </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">链接</label>
                 <div class="col-sm-9">
-                    <input type="text" name="urllink" value="{$info.urllink|default=''}" class="form-control">
+                    <input type="text" name="url" value="{$info.url|default=''}" class="form-control">
                 </div>
             </div>
-          
+
             <div class="form-group">
-                <label class="col-sm-2 control-label">备注</label>
+                <label class="col-sm-2 control-label">类型</label>
                 <div class="col-sm-9">
-                  <script id="editor_param" name="desc" type="text/plain" style="width:100%;height:400px;">{$info.desc|default=''}</script>
+                    <input name="type" type="radio" value="0" {if !isset($info['type']) || $info['type'] == 0}checked="checked"{/if}/><label>轮播</label>
+                    <input name="type" type="radio"  value='1' {if isset($info['type']) && $info['type'] == 1}checked="checked"{/if}/><label>广告</label>
+                    <input name="type" type="radio"  value='2' {if isset($info['type']) && $info['type'] == 2}checked="checked"{/if}/><label>出售区</label>
                 </div>
             </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">图片</label>
+                <div class="img-preview" style="display:{$info.picture? 'block':'none'};margin-left:-20%">
+                    <img src="{$info.picture|default=''}" id='img_show' style="min-width: 0px !important; min-height: 0px !important; max-width: none !important; max-height: none !important; width: 300px; height: 200px">
+                </div>
+               
+                <div class="form-group" style="margin-left:18%;">
+                    <label title="上传图片" for="pictur_btn" class="btn btn-primary" id="pictur">上传新图像
+                        <input type="file" accept="image/jpg,image/jpeg,image/bmp,image/png,image/gif/*" name="file" id="pictur_btn" class="hide" />
+                    </label>
+                </div>
                 <div class="form-group">
-                        <label class="col-sm-2 control-label">图片</label>
-                        <div class="img-preview" style="display:{$info.picture? 'block':'none'};margin-left:-20%">
-                            <img src="{$info.picture|default=''}" id='img_show' style="min-width: 0px !important; min-height: 0px !important; max-width: none !important; max-height: none !important; width: 300px; height: 200px">
-                        </div>
-                       
-                        <div class="form-group" style="margin-left:18%;">
-                            <label title="上传图片" for="pictur_btn" class="btn btn-primary" id="pictur">上传新图像
-                                <input type="file" accept="image/jpg,image/jpeg,image/bmp,image/png,image/gif/*" name="file" id="pictur_btn" class="hide" />
-                            </label>
-                        </div>
-
-
-
                     <label class="col-sm-2 control-label">是否显示</label>
                     <div class="col-sm-9">
                         <div class="radio radio-success radio-inline">
-                            <input type="radio" value="1" name="status" id="show1" {if condition="isset($info['status']) and ($info['status'] eq 1)"}checked{/if} >
+                            <input type="radio" value="1" name="state" id="show1" {if condition="isset($info['state']) and ($info['state'] eq 1)"}checked{/if} >
                             <label for="show1">显示</label>
                         </div>
 
                         <div class="radio radio-danger radio-inline">
-                            <input type="radio" value="0" name="status" id="show2" {if condition="isset($info['status']) and ($info['status'] neq 1)"}checked{elseif condition="!isset($info['status'])"  /}checked{/if} >
+                            <input type="radio" value="0" name="state" id="show2" {if condition="isset($info['state']) and ($info['state'] neq 1)"}checked{elseif condition="!isset($info['state'])"  /}checked{/if} >
                             <label for="show2">隐藏</label>
                         </div>
 
@@ -70,9 +78,6 @@
 </div>
 {/block}
 {block name="script"}
-<script type="text/javascript" src="__STATIC__/ueditor/1.4.3/ueditor.config.js"></script> 
-<script type="text/javascript" src="__STATIC__/ueditor/1.4.3/ueditor.all.min.js"> </script> 
-<script type="text/javascript" src="__STATIC__/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script> 
 <script>
 $(function() {
     var id = "{$Think.get.id}";
@@ -122,22 +127,5 @@ $(function() {
 
 // })
 });
-
-
-
-
-    //实例化富文本编辑器 
-    var ue = UE.getEditor('editor_param',{
-        initialFrameWidth:650,
-        initialFrameHeight:180,
-        toolbars: [[
-            'fullscreen', 'source', '|', 'undo', 'redo', '|', 'searchreplace' ,
-            'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch','pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
-            'rowspacingtop', 'rowspacingbottom', 'lineheight', 'paragraph', 'fontfamily', 'fontsize', 'indent', '|',
-            'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
-            'link', 'unlink', 'insertimage', 'insertvideo', 'music', 'attachment', 'map', 'gmap',
-        ]]
-    });
-
 </script>
 {/block}
