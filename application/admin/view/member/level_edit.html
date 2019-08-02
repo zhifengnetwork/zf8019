@@ -22,6 +22,17 @@
                         <!-- <span class="help-block"><strong class="text-danger">微信支付要求公众号为“认证服务号”，该公众号没有微信支付的权限</strong></span>  -->
                     </div>
                 </div>
+                {if $info.level == 4}
+                <div class="form-group form-group-s">
+                    <label class="col-xs-12 col-sm-2 control-label">全网挖矿收益获得比例 </label>
+                    <div class="input-daterange input-group" style="left:15px;">
+                        <input class="form-control " name="recommend" type="text" value="{$info.recommend * 100}"
+                            autocomplete="off" />
+                        <span class="input-group-addon">%</span>
+                    </div>
+                </div>
+                {else}
+
                 <div class="form-group form-group-s">
                     <label class="col-xs-12 col-sm-2 control-label">节点推荐比例 </label>
                     <div class="input-daterange input-group" style="left:15px;">
@@ -30,6 +41,7 @@
                         <span class="input-group-addon">%</span>
                     </div>
                 </div>
+
                 <div class="form-group form-group-s">
                     <label class="col-xs-12 col-sm-2 control-label">平级比例 </label>
                     <div class="input-daterange input-group" style="left:15px;">
@@ -38,18 +50,24 @@
                         <span class="input-group-addon">%</span>
                     </div>
                 </div>
+                {/if}
                 <div class="form-group form-group-s">
                     <label class="col-xs-12 col-sm-2 control-label">平级获奖层数 </label>
                     <div class="input-daterange input-group" style="left:15px;">
                         <input class="form-control " name="layer_number" type="text" value="{$info.layer_number}"
-                            autocomplete="off" />
+                            autocomplete="off" disabled />
                     </div>
                 </div>
                 <div class="form-group form-group-s">
                     <label class="col-xs-12 col-sm-2 control-label">升级条件 </label>
                     <div class="input-daterange input-group" style="left:15px;">
+                        {if $info.upgrade == null}
+                        <input class="form-control " name="upgrade" type="text" value="{$info.upgrade}"
+                            autocomplete="off" disabled />
+                        {else}
                         <input class="form-control " name="upgrade" type="text" value="{$info.upgrade}"
                             autocomplete="off" />
+                        {/if}
                     </div>
                 </div>
                 <div class="form-group form-group-s">
