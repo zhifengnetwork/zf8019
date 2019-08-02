@@ -954,6 +954,19 @@ function uploadTou($image)
     }
 }
 
+
+/**
+ * 手机号码中间加星
+ * @param int $tel
+ * @return string
+ */
+function doPhone($tel){
+     $new_tel = preg_replace('/(\d{3})\d{4}(\d{4})/', '$1****$2', $tel);  
+    return $new_tel;
+}
+
+
+
 /**
  * 商品属性组合
  * @param $arrs 二维数组
@@ -1001,3 +1014,4 @@ function getArrSet($arrs, $_current_index = -1)
     }
     return $_total_arr;
 }
+

@@ -1220,18 +1220,19 @@ class User extends ApiBase
      */
     public function ewm(){
       if (!Request::instance()->isPost()) return $this->getResult(301, 'error', '请求方式有误');
-         $user_id = $this->get_user_id();
+        //    $user_id=27875;
+        $user_id = $this->get_user_id();
         if(!$user_id){
             return $this->failResult('用户不存在', 301);
-        }
+        } 
         $url     = Db::table('site')->value('web_url');
         $imgUrl  = $url . '/Register?uid=' . $user_id;
         $filename = $user_id.'-qrcodee.png';
         $save_dir = ROOT_PATH.'public/Ewm/';
         $my_poster = $save_dir.$user_id.'-qrcodee.png';
         $my_poster_srcurl = SITE_URL.'/Ewm/'.$user_id.'-qrcodee.png';
+     
         if( !file_exists($my_poster) ){
-
             vendor('phpqrcode.phpqrcode');
             \QRcode::png($imgUrl, $save_dir.$filename, QR_ECLEVEL_M);
          
@@ -1242,7 +1243,10 @@ class User extends ApiBase
             $my_poster_src = $save_dir.$user_id.'-qrcodee.png';
             $qr_image->thumb($image_w,$image_h,\think\Image::THUMB_SOUTHEAST)->save($my_poster_src);
         }
+        $user_info=Db::name('member')->where(['id'=>$user_id])->field('avatar,realname')->find();
         $data['url'] = $my_poster_srcurl;
+        $data['avatar']=$user_info['avatar'];
+        $data['realname']=$user_info['realname'];
         return $this->successResult($data);
 }
 
