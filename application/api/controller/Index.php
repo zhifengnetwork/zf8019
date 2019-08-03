@@ -100,72 +100,60 @@ class Index extends ApiBase
             }
         }
         
-        $announce=Db::name('announce')->field('id,title,urllink as link,desc,picture')->where(['status'=>1])->order('create_time','desc')->limit(3)->select();
-        if($announce){
-            foreach($announce as $ak=>$av){
-                $announce[$ak]['picture']=SITE_URL.$av['picture'];
-            }
-        }
+        $announce=Db::name('announce')->field('id,title,urllink as link,desc')->where(['status'=>1])->order('create_time','desc')->limit(3)->select();
 
-        // $hot_goods = Db::table('goods')->alias('g')
-        //         ->join('goods_img gi','gi.goods_id=g.goods_id','LEFT')
-        //         ->where('gi.main',1)
-        //         ->where('g.is_show',1)
-        //         ->where('g.is_del',0)
-        //         ->where('FIND_IN_SET(3,g.goods_attr)')
-        //         ->order('g.goods_id DESC')
-        //         ->field('g.goods_id,goods_name,gi.picture img,price,original_price')
-        //         ->limit(4)
-        //         ->select();
+        $hot_goods = Db::table('goods')->alias('g')
+                ->join('goods_img gi','gi.goods_id=g.goods_id','LEFT')
+                ->where('gi.main',1)
+                ->where('g.is_show',1)
+                ->where('g.is_del',0)
+                ->where('FIND_IN_SET(3,g.goods_attr)')
+                ->order('g.goods_id DESC')
+                ->field('g.goods_id,goods_name,gi.picture img,price,original_price')
+                ->limit(4)
+                ->select();
         
-        // if($hot_goods){
-        //     foreach($hot_goods as $key=>&$value){
-        //         $value['img'] = Config('c_pub.apiimg') .$value['img'];
-        //     }
-        // }
-        
-        // $recommend_goods = Db::table('goods')->alias('g')
-        //         ->join('goods_img gi','gi.goods_id=g.goods_id','LEFT')
-        //         ->where('gi.main',1)
-        //         ->where('g.is_show',1)
-        //         ->where('g.is_del',0)
-        //         ->where('FIND_IN_SET(1,g.goods_attr)')
-        //         ->order('g.goods_id DESC')
-        //         ->field('g.goods_id,goods_name,gi.picture img,price,original_price')
-        //         ->paginate(4);
-
-        // if($recommend_goods){
-        //     $recommend_goods = $recommend_goods->all();
-        //     foreach($recommend_goods as $key=>&$value){
-        //         $value['img'] = Config('c_pub.apiimg') .$value['img'];
-        //     }
-        // }
-
-        // $goods_gift = Db::table('goods')->alias('g')
-        //         ->join('goods_img gi','gi.goods_id=g.goods_id','LEFT')
-        //         ->where('gi.main',1)
-        //         ->where('g.is_show',1)
-        //         ->where('g.is_del',0)
-        //         ->where('g.is_gift',1)
-        //         ->order('g.goods_id DESC')
-        //         ->field('g.goods_id,goods_name,gi.picture img,price,original_price')
-        //         ->paginate(4);
-
-        // if($goods_gift){
-        //     $goods_gift = $goods_gift->all();
-        //     foreach($goods_gift as $key=>&$value){
-        //         $value['img'] = Config('c_pub.apiimg') .$value['img'];
-        //     }
-        // }
-
-        $info=Db::name('info')->field('id,title,urllink as link,desc,picture')->where(['status'=>1])->order('create_time','desc')->limit(3)->select();
-        if($info){
-            foreach($info as $ik=>$iv){
-                $info[$ik]['picture']=SITE_URL.$iv['picture'];
+        if($hot_goods){
+            foreach($hot_goods as $key=>&$value){
+                $value['img'] = Config('c_pub.apiimg') .$value['img'];
             }
         }
         
-        $this->ajaxReturn(['status' => 200 , 'msg'=>'获取成功','data'=>['banners'=>$banners,'announce'=>$announce,'info'=>$info]]);
+        $recommend_goods = Db::table('goods')->alias('g')
+                ->join('goods_img gi','gi.goods_id=g.goods_id','LEFT')
+                ->where('gi.main',1)
+                ->where('g.is_show',1)
+                ->where('g.is_del',0)
+                ->where('FIND_IN_SET(1,g.goods_attr)')
+                ->order('g.goods_id DESC')
+                ->field('g.goods_id,goods_name,gi.picture img,price,original_price')
+                ->paginate(4);
+
+        if($recommend_goods){
+            $recommend_goods = $recommend_goods->all();
+            foreach($recommend_goods as $key=>&$value){
+                $value['img'] = Config('c_pub.apiimg') .$value['img'];
+            }
+        }
+
+        $goods_gift = Db::table('goods')->alias('g')
+                ->join('goods_img gi','gi.goods_id=g.goods_id','LEFT')
+                ->where('gi.main',1)
+                ->where('g.is_show',1)
+                ->where('g.is_del',0)
+                ->where('g.is_gift',1)
+                ->order('g.goods_id DESC')
+                ->field('g.goods_id,goods_name,gi.picture img,price,original_price')
+                ->paginate(4);
+
+        if($goods_gift){
+            $goods_gift = $goods_gift->all();
+            foreach($goods_gift as $key=>&$value){
+                $value['img'] = Config('c_pub.apiimg') .$value['img'];
+            }
+        }
+        
+        $this->ajaxReturn(['status' => 200 , 'msg'=>'获取成功','data'=>['banners'=>$banners,'announce'=>$announce,'hot_goods'=>$hot_goods,'recommend_goods'=>$recommend_goods,'goods_gift'=>$goods_gift]]);
     }
 
     

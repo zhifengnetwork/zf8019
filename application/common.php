@@ -198,7 +198,6 @@ function checkMobile($mobilePhone)
     }
 }
 
-
 function send_zhangjun($mobile, $code)
 { //掌骏
 
@@ -991,20 +990,6 @@ function uploadTou($image)
         }
     }
 }
-
-
-/**
- * 手机号码中间加星
- * @param int $tel
- * @return string
- */
-function doPhone($tel)
-{
-    $new_tel = preg_replace('/(\d{3})\d{4}(\d{4})/', '$1****$2', $tel);
-    return $new_tel;
-}
-
-
 
 /**
  * 商品属性组合

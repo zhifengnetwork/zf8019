@@ -24,7 +24,7 @@ class Member extends Common
         $kw              = input('realname', '');
         $level           = input('level', '');
 
-        if (!empty($level) || $level == 0) {
+        if (!empty($level) && $level == 0) {
             $where['level'] = $level;
         }
 
