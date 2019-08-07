@@ -4,6 +4,7 @@ namespace app\admin\controller;
 
 use app\common\model\Advertisement as Advertise;
 use app\common\model\Announce;
+use app\common\model\Info;
 use think\Db;
 
 /**
@@ -79,8 +80,82 @@ class Advertisement extends Common
     }
 
 
+       //资讯
+       public function info()
+       {
+           $list = Db::table('info')->where(['status'=>['<>',-1]])->select();
+           $this->assign('list', $list);
+           $this->assign('meta_title', '资讯');
+           return $this->fetch();
+       }
+        /**
+        * 编辑资讯
+        */
+       public function info_edit()
+       {
+            $id = input('id', 0);
+           if (request()->isPost()) {
+               $id    = input('id', 0);
+               $title = input('title', '');
+               $desc = input('desc', '');
+               $urllink = input('urllink', '');
+               $status = input('status/d', 0);
+               $data  = [
+                   'title' => $title,
+                   'desc'  => $desc,
+                   'urllink'  => $urllink,
+                   'status'  => $status,
+               ];
+       
+               !$title && $this->error('标题不能为空');
+          
+           $Info = new Info;
+               if ($id) {
+                   if ($Info->save($data, ['id' => $id]) !== false) {
+                       $this->success('编辑成功', url('advertisement/info'));
+                   }
+                   $this->error('编辑失败');
+               }
+               if ($Info->save($data)) {
+                   $this->success('添加成功', url('advertisement/info'));
+               }
+               $this->error('添加失败');
+           }
+           $info = $id ? Info::where('id', $id)->find()->getdata() : [];
+           $this->assign('info', $info);
+           $this->assign('id', $id);
+           // $this->assign('page_id', request()->param('page_id',0));
+           $this->assign('meta_title', $id ? '编辑资讯' : '新增资讯');
+           return $this->fetch();
+       }
+   
 
+       public function info_del()
+       {
+           $id = input('id', 0);
+           if (Db::table('info')->where('id', $id)->delete()) {
+               $this->success('删除成功！');
+           }
+           $this->error('删除失败！');
+       }
 
+         /**
+     *  修改公告状态
+     */
+    public function info_status () {
+        $id = request()->param('id',0);
+        $status = request()->param('status',0);
+        if ($id){
+            $update = Db::table('info')->where('id',$id)->update(['status'=>$status]);
+            if ($update){
+                return json(['code'=>1,'msg'=>'操作成功！','data'=>[]]);
+            }else{
+                json(['code'=>0,'msg'=>'修改失败！','data'=>[]]);
+            }
+        }else{
+            return json(['code'=>0,'msg'=>'id不存在！','data'=>[]]);
+        }
+    }
 
 
     /**
