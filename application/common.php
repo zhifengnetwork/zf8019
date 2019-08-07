@@ -19,6 +19,25 @@ function first_leader_ids($user_id, &$userList = array())
     first_leader_ids($first_leader, $userList);
     return $userList;
 }
+//获取所有直属下级id
+function subordinate_ids($user_id, &$userList = array())
+{
+    $users = Db::name('member')->field('id,first_leader,level')->where(['first_leader' => $user_id])->select();
+    // $level = Db::name('member')->field('id,first_leader,level')->where(['id' => $user_id])->value('level'); //获取用户等级
+    // $UpInfo = M('users')->field($field)->where(['user_id' => $first_leader])->find();
+    foreach ($users as $key => $veal) {
+        // if ($level == 3) {
+        //     if ($key >= 3) break;
+        // }
+        if ($veal['id'] <= 0) {
+            return true;
+        }
+        $userList[] = $veal['id'];
+        subordinate_ids($veal['id'], $userList);
+    }
+    return $userList;
+}
+
 
 
 

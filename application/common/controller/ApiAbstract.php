@@ -1,8 +1,11 @@
 <?php
+
 /**
  * 继承
  */
+
 namespace app\common\controller;
+
 use app\common\util\jwt\JWT;
 use think\Db;
 use think\Controller;
@@ -21,7 +24,8 @@ class ApiAbstract extends Controller
     private static $redis = null;
     const PAGE_SIZE = 20;   // 每页条数
 
-    public function _initialize () {
+    public function _initialize()
+    {
         parent::_initialize();
         header("Access-Control-Allow-Origin:*");
         header("Access-Control-Allow-Headers:*");
@@ -30,23 +34,24 @@ class ApiAbstract extends Controller
 
         $param = Request::instance()->param();
         $this->param = isset($param) && !empty($param) ? $param : '';
-
     }
 
     /*获取redis对象*/
-    protected function getRedis(){
-        if(!self::$redis instanceof Redis){
+    protected function getRedis()
+    {
+        if (!self::$redis instanceof Redis) {
             self::$redis = new Redis(Config('cache.redis'));
         }
         return self::$redis;
     }
 
-    public function ajaxReturn($data){
+    public function ajaxReturn($data)
+    {
         header('Access-Control-Allow-Origin:*');
         header('Access-Control-Allow-Headers:*');
         header("Access-Control-Allow-Methods:GET, POST, OPTIONS, DELETE");
         header('Content-Type:application/json; charset=utf-8');
-        exit(str_replace("\\/", "/",json_encode($data,JSON_UNESCAPED_UNICODE)));
+        exit(str_replace("\\/", "/", json_encode($data, JSON_UNESCAPED_UNICODE)));
     }
 
     /**
@@ -57,38 +62,38 @@ class ApiAbstract extends Controller
      * @param $type     默认为1
      * @return array    'status' => 1 , 'msg'=>'发送成功！'   status 1:表示发送成功；-2 表示发送失败；
      */
-    public function sendPhoneCode($mobile,$temp,$auth,$type)
+    public function sendPhoneCode($mobile, $temp, $auth, $type)
     {
 
-        if( !$mobile || ($temp != 'sms_forget' && $temp != 'sms_reg' ) || !$auth ){
-            return ['status'=>-1,'msg'=>'参数错误'];
+        if (!$mobile || ($temp != 'sms_forget' && $temp != 'sms_reg') || !$auth) {
+            return ['status' => -1, 'msg' => '参数错误'];
         }
 
         $Md5 = md5($mobile . $temp);
-        if( $Md5 != $auth ){
-            return ['status' => -2 , 'msg'=>'非法请求！'];
+        if ($Md5 != $auth) {
+            return ['status' => -2, 'msg' => '非法请求！'];
         }
-        $member = Db::table('member')->where('mobile',$mobile)->value('id');
-        if($type == 1){
+        $member = Db::table('member')->where('mobile', $mobile)->value('id');
+        if ($type == 1) {
             if (($temp == 'sms_forget') && empty($member)) {
-                return ['status' => -2 , 'msg'=>'此手机号未注册！'];
+                return ['status' => -2, 'msg' => '此手机号未注册！'];
             }
             if (($temp == 'sms_reg') && !(empty($member))) {
-                return ['status' => -2 , 'msg'=>'此手机号已注册，请直接登录！'];
+                return ['status' => -2, 'msg' => '此手机号已注册，请直接登录！'];
             }
         }
         $phone_number = checkMobile($mobile);
         if ($phone_number == false) {
-            return ['status' => -2 , 'msg'=>'手机号码格式不对！'];
+            return ['status' => -2, 'msg' => '手机号码格式不对！'];
         }
 
-        $res = Db::name('phone_auth')->field('exprie_time')->where('mobile','=',$mobile)->order('id DESC')->find();
+        $res = Db::name('phone_auth')->field('exprie_time')->where('mobile', '=', $mobile)->order('id DESC')->find();
 
-        if( $res['exprie_time'] > time() ){
-            return ['status' => -2 , 'msg'=>'请求频繁请稍后重试！'];
+        if ($res['exprie_time'] > time()) {
+            return ['status' => -2, 'msg' => '请求频繁请稍后重试！'];
         }
 
-        $code = mt_rand(111111,999999);
+        $code = mt_rand(111111, 999999);
 
         $data['mobile'] = $mobile;
         $data['auth_code'] = $code;
@@ -96,17 +101,17 @@ class ApiAbstract extends Controller
         $data['exprie_time'] = time() + 60;
 
         $res = Db::table('phone_auth')->insert($data);
-        if(!$res){
-            return ['status' => -2 , 'msg'=>'发送失败，请重试！'];
+        if (!$res) {
+            return ['status' => -2, 'msg' => '发送失败，请重试！'];
         }
-//      测试默认通过  zgp
-//        $ret['message'] = 'ok';
-//        正式启动验证码 zgp
+        //      测试默认通过  zgp
+        //        $ret['message'] = 'ok';
+        //        正式启动验证码 zgp
         $ret = send_zhangjun($mobile, $code);
-        if($ret['message'] == 'ok'){
-            return ['status' => 1 , 'msg'=>'发送成功！'];
+        if ($ret['message'] == 'ok') {
+            return ['status' => 1, 'msg' => '发送成功！'];
         }
-        return ['status' => -2 , 'msg'=>'发送失败，请重试！'];
+        return ['status' => -2, 'msg' => '发送失败，请重试！'];
     }
 
     /**
@@ -117,18 +122,19 @@ class ApiAbstract extends Controller
      * @param $type     0 发送给卖方；1 发送给买方
      * @return array    'status' => 1 , 'msg'=>'发送成功！'   status 1:表示发送成功；-2 表示发送失败；
      */
-    public function sendTransactionPhoneCode($mobile,$type){
-        if( !$mobile ){
-            return ['status'=>-1,'msg'=>'参数错误'];
+    public function sendTransactionPhoneCode($mobile, $type)
+    {
+        if (!$mobile) {
+            return ['status' => -1, 'msg' => '参数错误'];
         }
 
-        $res = Db::name('phone_auth')->field('exprie_time')->where('mobile','=',$mobile)->order('id DESC')->find();
+        $res = Db::name('phone_auth')->field('exprie_time')->where('mobile', '=', $mobile)->order('id DESC')->find();
 
-//        if( $res['exprie_time'] > time() ){
-//            return ['status' => -2 , 'msg'=>'请求频繁请稍后重试！'];
-//        }
+        //        if( $res['exprie_time'] > time() ){
+        //            return ['status' => -2 , 'msg'=>'请求频繁请稍后重试！'];
+        //        }
 
-        $code = mt_rand(111111,999999);
+        $code = mt_rand(111111, 999999);
 
         $data['mobile'] = $mobile;
         $data['auth_code'] = $code;
@@ -136,20 +142,20 @@ class ApiAbstract extends Controller
         $data['exprie_time'] = time() + 60;
 
         $res = Db::table('phone_auth')->insert($data);
-        if(!$res){
-            return ['status' => -2 , 'msg'=>'发送失败，请重试！'];
+        if (!$res) {
+            return ['status' => -2, 'msg' => '发送失败，请重试！'];
         }
-//      测试默认通过  zgp
-//        $ret['message'] = 'ok';
-        if($type==1){//发送给买方
+        //      测试默认通过  zgp
+        //        $ret['message'] = 'ok';
+        if ($type == 1) { //发送给买方
             $ret = send_zhangjun_buyer($mobile);
-        }else{//发送给卖方
+        } else { //发送给卖方
             $ret = send_zhangjun_seller($mobile);
         }
-        if($ret['message'] == 'ok'){
-            return ['status' => 1 , 'msg'=>'发送成功！'];
+        if ($ret['message'] == 'ok') {
+            return ['status' => 1, 'msg' => '发送成功！'];
         }
-        return ['status' => -2 , 'msg'=>'发送失败，请重试！'];
+        return ['status' => -2, 'msg' => '发送失败，请重试！'];
     }
 
     /**
@@ -160,7 +166,7 @@ class ApiAbstract extends Controller
      */
     public function phoneAuth($mobile, $auth_code)
     {
-        $res = Db::name('phone_auth')->field('exprie_time')->where('mobile','=',$mobile)->where('auth_code',$auth_code)->order('id DESC')->find();
+        $res = Db::name('phone_auth')->field('exprie_time')->where('mobile', '=', $mobile)->where('auth_code', $auth_code)->order('id DESC')->find();
 
         if ($res) {
             if ($res['exprie_time'] >= time()) { // 还在有效期就可以验证
@@ -193,8 +199,9 @@ class ApiAbstract extends Controller
     /**
      * 空
      */
-    public function _empty(){
-        $this->ajaxReturn(['status' => 301 , 'msg'=>'接口不存在','data'=>null]);
+    public function _empty()
+    {
+        $this->ajaxReturn(['status' => 301, 'msg' => '接口不存在', 'data' => null]);
     }
 
     public function successResult($data = [])
@@ -218,8 +225,6 @@ class ApiAbstract extends Controller
             'msg' => $message,
             'data' => $data
         ];
-        exit(str_replace("\\/", "/",json_encode($return,JSON_UNESCAPED_UNICODE)));
-
+        exit(str_replace("\\/", "/", json_encode($return, JSON_UNESCAPED_UNICODE)));
     }
-
 }
