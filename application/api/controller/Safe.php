@@ -19,9 +19,86 @@ class Safe extends ApiBase
         // $this->user_id=27875;
         $user_id=$this->user_id;
         $user_info=Db::name('member')->field('realname,mobile')->where(['id'=>$user_id])->find();
-        $user_info=doPhone($user_info);
+        $user_info['phone']=preg_replace('/(\d{3})\d{4}(\d{4})/','$1****$2',$user_info['mobile']);
         $this->successResult($user_info);
     }
+
+    //设置支付密码
+    public function set_pay_password()
+    {
+        $user_id=$this->user_id;
+        $phone = input('phone/s', '');
+        $verify_code = input('verify_code/s', '');
+        $pwd=input('password/s');
+
+        $res = $this->phoneAuth($phone, $verify_code);
+        if ($res === -1) {
+            return $this->failResult('验证码已过期！', 301);
+        }else{
+            return $this->failResult('验证码错误！', 301);
+        }
+        // $user_id=27875;
+        $pwd=md5($pwd);
+        $set_pay_password=Db::name('member')->where(['id'=>$user_id])->update(['pwd'=>$pwd]);
+        if($set_pay_password!==false){
+            return $this->successResult('设置密码成功');
+        }else{
+            return $this->failResult('设置密码失败');
+        }
+    }
+
+    //忘记支付密码
+    public function forget_pay_password()
+    {
+        // $user_id=27875;
+        $user_id=$this->user_id;
+        $phone = input('phone/s', '');
+        $verify_code = input('verify_code/s', '');
+        $pwd=input('password/s');
+        $repwd=input('repassword/s');
+        if($pwd!==$repwd){
+            return $this->failResult('两个支付密码不一致',301);
+        }
+        $res = $this->phoneAuth($phone, $verify_code);
+        if ($res === -1) {
+            return $this->failResult('验证码已过期！', 301);
+        }else{
+            return $this->failResult('验证码错误！', 301);
+        }
+        $pwd=md5($pwd);
+        $set_pay_password=Db::name('member')->where(['id'=>$user_id])->update(['pwd'=>$pwd]);
+        if($set_pay_password!==false){
+            return $this->successResult('修改密码成功');
+        }else{
+            return $this->failResult('修改密码失败');
+        }
+    }
+
+    // 修改支付密码
+    public function edit_pay_password()
+    {
+        // $this->user_id=27875;
+        $user_id=$this->user_id;
+        $old_password=input('old_password/s');
+        $new_password=input('new_password/s');
+        $user_info=Db::name('member')->where(['id'=>$user_id])->find();
+        if(md5($old_password)!==$user_info['pwd']){
+            return $this->failResult("原密码输入错误",301);
+        }
+        if($old_password===$new_password){
+            return $this->failResult("新密码不能跟旧密码相同",301);
+        }
+
+        $update_password=Db::name('member')->where(['id'=>$user_id])->update(['pwd'=>md5($old_password)]);
+        if($update_password!==false){
+            return $this->successResult("修改支付密码成功");
+        }else{
+            return $this->failResult("修改支付密码失败");
+        }
+    }
+
+
+
 
     //换绑手机验证
     public function check_new_phone()
