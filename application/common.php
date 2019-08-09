@@ -40,7 +40,6 @@ function subordinate_ids($user_id, &$userList = array())
 
 
 
-
 //获取所有直属上级
 
 function card_num($user_id, $has_num, $now_num = 0)
