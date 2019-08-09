@@ -37,6 +37,40 @@ class Banner extends ApiAbstract
     }
 
 
+    
+    //资讯详情
+    public function info_detail(){
+        $id=input('id');
+        if($id){
+            $info_detail=Db::name('info')->where(['id'=>$id])->find();  
+            $info_detail['create_time']=date('Y-m-d',$info_detail['create_time']);
+            $info_detail['picture']=SITE_URL.$info_detail['picture'];
+            if($info_detail){
+                $this->successResult($info_detail);
+            }else{
+                $this->failResult("获取资讯数据失败");
+            }
+        }
+    }
+    //公告详情
+    public function announce_detail()
+    {
+        $id=input('id');
+        if($id){
+            $info_detail=Db::name('announce')->where(['id'=>$id])->find();  
+            $info_detail['create_time']=date('Y-m-d',$info_detail['create_time']);
+            $info_detail['picture']=SITE_URL.$info_detail['picture'];
+            if($info_detail){
+                $this->successResult($info_detail);
+            }else{
+                $this->failResult("获取资讯数据失败");
+            }
+        }
+    }
+
+
+
+
 
     public function getAllData ($only_logo,$type=0){
         return Db::table('page_advertisement')->alias('a')->join('advertisement b','a.id = b.page_id','left')
