@@ -18,6 +18,9 @@ class Safe extends ApiBase
     public function index(){
         // $this->user_id=27875;
         $user_id=$this->user_id;
+        if(!$user_id){
+            return $this->failResult("用户不存在");
+        }
         $user_info=Db::name('member')->field('realname,mobile')->where(['id'=>$user_id])->find();
         $user_info['phone']=preg_replace('/(\d{3})\d{4}(\d{4})/','$1****$2',$user_info['mobile']);
         $this->successResult($user_info);
@@ -127,7 +130,7 @@ class Safe extends ApiBase
         $phone = input('phone/s', '');
         $verify_code = input('verify_code/s', '');
 
-        $this->user_id=27875;
+        // $this->user_id=27875;
 
         $user_id=$this->user_id;
         //验证码判断
